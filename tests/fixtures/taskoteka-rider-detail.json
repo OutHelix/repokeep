@@ -1,0 +1,499 @@
+{
+  "updated": 1792244873,
+  "taskid": 431802,
+  "shared": false,
+  "fail_early": true,
+  "test_only": false,
+  "repo": "p11",
+  "state": "FAILED",
+  "try": 2,
+  "iter": 1,
+  "age": 6,
+  "created": "2026-09-03T18:02:19",
+  "build_time": "2026-09-04T17:33:13",
+  "message": "php 8.4.25",
+  "owner": "rider",
+  "subtasks": {
+    "100": {
+      "dir": "/people/rider/packages/php.git",
+      "tag_name": "8.4.25-alt1",
+      "tag_id": "66d58b66ac2c2948479701aaa174021b64d08be8",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-03T18:02:54",
+      "type": "repo",
+      "userid": "rider",
+      "build": { "aarch64": "built", "i586": "built", "x86_64": "built" }
+    },
+    "200": {
+      "dir": "/people/rider/packages/php-mbstring.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "141ed43356148128e36b3cb33358749c1f06a42e",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:26",
+      "type": "repo",
+      "userid": "rider",
+      "build": { "i586": "failed", "x86_64": "failed" }
+    },
+    "300": {
+      "dir": "/people/rider/packages/apache2-mod_php.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "08e8838502e265a55bb09ec7ac71c227744de51d",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:28",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "400": {
+      "dir": "/people/rider/packages/php-bz2.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "fbb36f56b200fa8f99a3314843b909d11496e013",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:30",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "500": {
+      "dir": "/people/rider/packages/php-calendar.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "211a6832d6fc079e7478be9cd7b48e977a539259",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:32",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "600": {
+      "dir": "/people/rider/packages/php-curl.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "1a95bea47f334066439868167edcbab9cb9d39b0",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:34",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "700": {
+      "dir": "/people/rider/packages/php-dba.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "3bc3161b0808afa452660f6b9d593b7e19c5caa4",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:36",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "1000": {
+      "dir": "/people/rider/packages/php-fileinfo.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "10d70f22b0663ecab96d1a177cb4b7f3d863e296",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:38",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "1100": {
+      "dir": "/people/rider/packages/php-gd.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "d600afd9227b7303051dda06edcd90acf44326c4",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:40",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "1200": {
+      "dir": "/people/rider/packages/php-fpm-fcgi.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "8e3946c0cb43237eeecba576c60de0caa633fb0b",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:44",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "1300": {
+      "dir": "/people/rider/packages/php-gmp.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "5f3b3f941bb41c49e45853fafb06619064ce4314",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:46",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "1400": {
+      "dir": "/people/rider/packages/php-mysqlnd-mysqli.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "ab1c25c042359f20cf55a8c724a7139bfa62031f",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:48",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "1500": {
+      "dir": "/people/rider/packages/php-pdo.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "3447110275770702fef7f7bd293cb4cd96dfab19",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:51",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "1600": {
+      "dir": "/people/rider/packages/php-pdo_mysql.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "4abae6bd3e8937d63cdcc5f5774585667475a79e",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:54",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "1700": {
+      "dir": "/people/rider/packages/php-pdo_odbc.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "270c277775dcc770a3317958735e289512a8d10a",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:56",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "2000": {
+      "dir": "/people/rider/packages/php-pdo_pgsql.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "d511bfe722ec87f75a122872c61f562cad873478",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:25:59",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "2100": {
+      "dir": "/people/rider/packages/php-pdo_sqlite.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "cddaeebbc1ce587f10503f2b58cbb35f65f47953",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:01",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "2200": {
+      "dir": "/people/rider/packages/php-pgsql.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "faa668d049c7562a10e3389a5fe27b3cd8a222a7",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:04",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "2300": {
+      "dir": "/people/rider/packages/php-soap.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "9c253e5f78c68354476d2626e6ef0c2b88528cea",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:06",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "2400": {
+      "dir": "/people/rider/packages/php-sockets.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "f48f15188e91228a10e66f18014dc9d2351633fa",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:09",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "2500": {
+      "dir": "/people/rider/packages/php-xmlreader.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "fcaca8d88975d4819882042956b669fe18e1f091",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:11",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "2600": {
+      "dir": "/people/rider/packages/php-ldap.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "827551f40e8bde600cddec6219bcd9579f7bda11",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:14",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "2700": {
+      "dir": "/people/rider/packages/php-pcntl.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "ecf02250f8fa529a978f5d511e4add6d9cd5025f",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:17",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "3000": {
+      "dir": "/people/rider/packages/php-snmp.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "20ec0943d2888d4be3d88f98041945c8f5d20150",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:19",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "3100": {
+      "dir": "/people/rider/packages/php-zip.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "149b07e2187a069a66fd279dd409626fed2bd567",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:22",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "3200": {
+      "dir": "/people/rider/packages/php-xsl.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "b75f94ee875d038c55b6c2106c2d75c0fd35df57",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:25",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "3300": {
+      "dir": "/people/rider/packages/php-apcu.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "16d68a94e581d44d9e2d5b723124fbc419e9fe67",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:29",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "3400": {
+      "dir": "/people/rider/packages/php-igbinary.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "cea2fc96d7ddd176b38b47d302297c98205c79ec",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:32",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "3500": {
+      "dir": "/people/rider/packages/php-redis.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "9008e2784a52cacd780823921243ec867f92ed32",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:37",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "3600": {
+      "dir": "/people/rider/packages/php-intl.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "aebeaeae9defeddaee9ac520e428cc486efd7655",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:40",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "3700": {
+      "dir": "/people/rider/packages/php-opcache.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "52556beeee6c9b52a65c16315637f618b309fb80",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:44",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "4000": {
+      "dir": "/people/rider/packages/php-imagick.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "5dc097f49b25d35e23ccc485c86add486bfeb274",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:49",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "4100": {
+      "dir": "/people/rider/packages/php-xdebug.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "766641f33b6319203d98b8bf298d6009125bbc62",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:55",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "4200": {
+      "dir": "/people/rider/packages/php-tidy.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "e37d05ea1a1b4dc110e767b01aee9c025ff4dc65",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:26:58",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "4300": {
+      "dir": "/people/rider/packages/php-readline.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "31c3738c3970d530e04410277be649f01426d644",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:02",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "4400": {
+      "dir": "/people/rider/packages/php-xhprof.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "359d85519c1429e7a66e4019ef1651923d9611bb",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:06",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "4500": {
+      "dir": "/people/rider/packages/php-ssh2.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "d89810a794ff80428a6f3f7a25661efee4448327",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:10",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "4600": {
+      "dir": "/people/rider/packages/php-gmagick.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "a3b86e5e2fa60b89d727e0dbc948a6f8ec8a7353",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:14",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "4700": {
+      "dir": "/people/rider/packages/php-sodium.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "0641a89ce5d0e46fb644338abc9ea6bd3fa69830",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:18",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "5000": {
+      "dir": "/people/rider/packages/php-yaml.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "193e464c76634cf209848874291f2ebebcde6be4",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:22",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "5100": {
+      "dir": "/people/rider/packages/php-exif.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "fd1724a1aaa34051db4a7411e50a40595a481849",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:26",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "5200": {
+      "dir": "/people/rider/packages/php-swoole.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "18489e55a1d419db5b0ca9318721cc57ed626651",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:36",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "5300": {
+      "dir": "/people/rider/packages/php-jpgraph.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "27a29e62880c22c97acfc879ae97b08285be0f5f",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:41",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "5400": {
+      "dir": "/people/rider/packages/php-memcache.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "514de6968a164ec142d3bbddeebec58bc0888872",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:46",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "5500": {
+      "dir": "/people/rider/packages/php-memcached.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "e5b3ebaf1b1f7c8037ed978046a8c58538d32b4b",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:51",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "5600": {
+      "dir": "/people/rider/packages/php-ast.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "2c6bf4ca84c5c21991dac0638dd43661b60d7b67",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:27:55",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "5700": {
+      "dir": "/people/rider/packages/php-amqp.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "8b8ac3928883f7349cba155dd3dda166bcaf95cb",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:28:00",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "6000": {
+      "dir": "/people/rider/packages/php-xmlrpc.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "b2a298bd8a94f9036c67521552dee3836e8b693d",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:28:04",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "6100": {
+      "dir": "/people/rider/packages/php-smbclient.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "8c6a2de1abefac3778bf13f90590414565388734",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:28:08",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "6200": {
+      "dir": "/people/rider/packages/php-cgi.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "64a06159477a7f9643316e8f119eca100e6053f3",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:28:13",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "6300": {
+      "dir": "/people/rider/packages/php-mongodb.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "acdbabcfcc2a4ee0c30d16bb589ebf9b44832e78",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:28:18",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "6400": {
+      "dir": "/people/rider/packages/php-opentelemetry.git",
+      "tag_name": "php-8.4.25-alt1",
+      "tag_id": "f3ffe4263a5407724b0c5569829972627070159c",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:28:23",
+      "type": "repo",
+      "userid": "rider"
+    },
+    "6500": {
+      "dir": "/gears/u/unit.git",
+      "tag_name": "1.35.0-alt2",
+      "tag_id": "2f7ed7a59e588ce2a00bf92e4c59383d10e38a36",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-09-04T11:28:26",
+      "rebuild_from": "p11",
+      "type": "repo",
+      "pkgname": "unit",
+      "userid": "rider"
+    }
+  }
+}

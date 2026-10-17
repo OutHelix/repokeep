@@ -1,0 +1,19 @@
+{
+  "updated": 1792240584,
+  "taskid": 437479,
+  "shared": false,
+  "fail_early": true,
+  "test_only": false,
+  "repo": "sisyphus",
+  "state": "FAILED",
+  "try": 1,
+  "iter": 1,
+  "age": 0,
+  "created": "2026-10-17T03:45:38",
+  "build_time": "2026-10-17T04:21:34",
+  "message": "Final removal of 25+ weeks x86_64 ftbfs package",
+  "owner": "cleaner",
+  "subtasks": {
+    "100": { "type": "delete", "pkgname": "woadaptor", "userid": "cleaner" }
+  }
+}

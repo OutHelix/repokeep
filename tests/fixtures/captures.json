@@ -1,0 +1,218 @@
+{
+  "altrepo-363755.json": {
+    "captured": "2026-10-17",
+    "sha256": "9ea933f6901c8c6b400c2adb494d8626f4606bdd8b5ddf93567a8dc93b6d0ca8",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/task/progress/task_info/363755"
+  },
+  "altrepo-363764.json": {
+    "captured": "2026-10-17",
+    "sha256": "77db3e5cedc550fc4998682b45e0b5ec409ee6cdf48d86b89025913d11f907a4",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/task/progress/task_info/363764"
+  },
+  "altrepo-cas.json": {
+    "captured": "2026-10-17",
+    "sha256": "65c8270a40bc95cbf754506aa98d98814ca0f4a8601d4b674e7e26b6aa2d61e8",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/site/maintainer_packages?branch=sisyphus&maintainer_nickname=cas&by_acl=none"
+  },
+  "altrepo-grenka.json": {
+    "captured": "2026-10-17",
+    "sha256": "4843bd155d1cc87c5361910b4ccc50230cd1a5f39d5dd63bf0ef1da078f1d7f8",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/site/maintainer_packages?branch=sisyphus&maintainer_nickname=grenka&by_acl=none"
+  },
+  "altrepo-java.json": {
+    "captured": "2026-10-17",
+    "sha256": "8469d8648bb6ec03dbb5a0c5cd838369adcf702fa6b844afdec3266bafb5861d",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/site/repository_packages?branch=sisyphus&package_type=source&group=Development%2FJava"
+  },
+  "altrepo-packages.json": {
+    "captured": "2026-10-17",
+    "sha256": "4106747f562ab569863458571a3d3c659e540b7568b029f262cadbb796926688",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/site/maintainer_packages?branch=sisyphus&maintainer_nickname=scala&by_acl=none"
+  },
+  "altrepo-progress-437142.json": {
+    "captured": "2026-10-17",
+    "sha256": "69632721cba338ab41f5485bbaf701224a4d7b03748aa3f3946681a28d85ad6a",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/task/progress/task_info/437142"
+  },
+  "altrepo-progress-437493.json": {
+    "captured": "2026-10-17",
+    "sha256": "6b1eecc03ea9a8f2da6c405750fbfe9da35bf49b567bc4e6e283c8d9e8cb4900",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/task/progress/task_info/437493"
+  },
+  "altrepo-spec.json": {
+    "captured": "2026-10-17",
+    "sha256": "79636a171d33b3ea9c3456a794b6c9daee9adcedc16fdc491192470395ce1217",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/package/specfile_by_name?branch=sisyphus&name=flexmark-java"
+  },
+  "altrepo-viy.json": {
+    "captured": "2026-10-17",
+    "sha256": "d316a0c7cf3464837bf0e63180905915a9b60201455bc10d13c199343507433e",
+    "transformation": "none",
+    "url": "https://rdb.altlinux.org/api/site/maintainer_packages?branch=sisyphus&maintainer_nickname=viy&by_acl=none"
+  },
+  "girar-check-logs.json": {
+    "captured": "2026-10-17",
+    "sha256": "c963b9bf755a42549c21211ffa7cfac0ed45a2247ba9d098eaaa818354cfa1d2",
+    "transformation": "Wrap three complete unmodified UTF-8 event logs as objects with url and text; sources are recorded in each object.",
+    "url": [
+      "https://git.altlinux.org/tasks/435995/logs/events.1.1.log",
+      "https://git.altlinux.org/tasks/437142/logs/events.1.1.log",
+      "https://git.altlinux.org/tasks/437493/logs/events.1.1.log"
+    ]
+  },
+  "girar-events-363755.json": {
+    "captured": "2026-10-17",
+    "sha256": "92af020648f40383e9516d47d20f3b395bc804062e4cfe1119593503953a5ef4",
+    "transformation": "Wrap complete event log text with its source URL.",
+    "url": "https://git.altlinux.org/tasks/363755/logs/events.6.1.log"
+  },
+  "github-apache-maven.json": {
+    "captured": "2026-10-17",
+    "sha256": "45bc9cd89adce53c0eb4d04f7ce2952d643b42899461fa556e8206e76cf6ecd6",
+    "transformation": "sorted unique refs/tags names from git ls-remote --tags --refs",
+    "url": "https://github.com/apache/maven.git"
+  },
+  "github-google-guava.json": {
+    "captured": "2026-10-17",
+    "sha256": "356045e6d853d5c914a2d68fba0abf2d6821a7e79d868f666ce0b4f1cf577c55",
+    "transformation": "sorted unique refs/tags names from git ls-remote --tags --refs",
+    "url": "https://github.com/google/guava.git"
+  },
+  "github-parallel.json": {
+    "origin": "constructed regression scenario; not a live API response",
+    "sha256": "0fa1668b73cf5ccad03fc7ee0c583a33593d8f5e02ff95afa273263803c406bc"
+  },
+  "github-vsch-flexmark-java.json": {
+    "captured": "2026-10-17",
+    "sha256": "7a94267f3cdffb00f61350ad6ec276d9c0703d405098945c006ed90b35b0c540",
+    "transformation": "sorted unique refs/tags names from git ls-remote --tags --refs",
+    "url": "https://github.com/vsch/flexmark-java.git"
+  },
+  "osv-components.json": {
+    "origin": "constructed regression scenario; not a live API response",
+    "sha256": "1018eaf8e3f74ca624f3b78bd4ab8fbfe54fe1dd8f3a5cd47b491a15886006a4"
+  },
+  "osv-query.json": {
+    "body": {
+      "package": {
+        "ecosystem": "PyPI",
+        "name": "Jinja2"
+      },
+      "version": "3.1.0"
+    },
+    "captured": "2026-10-17",
+    "method": "POST",
+    "sha256": "117cd1a67bb156d96a29f0e152dc6c2ed60ebda328d7c780e66ab3d6ac61e5af",
+    "transformation": "none",
+    "url": "https://api.osv.dev/v1/query"
+  },
+  "task-stage-labels.json": {
+    "captured": "2026-10-17",
+    "sha256": "b6441069b58e714f9ca73c76390a71639ab19f3d1e74a680f9c3c8bc5d4d21a7",
+    "transformation": "Public UI identifiers and English captions from TASK_STAGES; omit untranslated/commented entries. No frontend implementation code included.",
+    "url": "https://altlinux.space/ALTLinux/altrepo_front/src/commit/5b0f460a668fda40840231f4cbc368ac1b600c80/apps/tasks/misc.py"
+  },
+  "taskoteka-363755.json": {
+    "captured": "2026-10-17",
+    "sha256": "189990bb9dcd7cd2698e802b1d4ff27df73aa68f740d1a4a8579c4e40930fa9b",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/363755"
+  },
+  "taskoteka-363764.json": {
+    "captured": "2026-10-17",
+    "sha256": "87a40da0d26614fcfa6e284e62ecc3cca94e2e658e9545a36f6fb7ff6499c596",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/363764"
+  },
+  "taskoteka-cas-detail.json": {
+    "captured": "2026-10-17",
+    "sha256": "bb5f962ff86b93233d7ff4bf5655da052a0f3beb08e489d3fa95564b878d4412",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/241477"
+  },
+  "taskoteka-cas.json": {
+    "captured": "2026-10-17",
+    "sha256": "dd5e00d9bb9396a756e95e5268f306fb69e8b162d9140a245b7c15b224f20215",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks?user=cas&repo=ALL&state=ALL"
+  },
+  "taskoteka-detail.json": {
+    "captured": "2026-10-17",
+    "sha256": "5fff66b9088df9b7f88e34083b34fe5a332b70d557825ca8fba57d3b3a1e1bde",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/435564"
+  },
+  "taskoteka-lav-detail.json": {
+    "captured": "2026-10-17",
+    "sha256": "19ba2c1f37a53def78e13e1d0aa2ddc9483c3b3fe1d66b22d2ffae3ef2f85f7a",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/437170"
+  },
+  "taskoteka-lav.json": {
+    "captured": "2026-10-17",
+    "sha256": "c5f8e054408bb09f370da209868f338e3d831ce700a23c2fbcf22229dd1890a0",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks?user=lav&repo=ALL&state=ALL"
+  },
+  "taskoteka-list.json": {
+    "captured": "2026-10-17",
+    "sha256": "7d6a0a83f1d03d896e4777d0fa8513236fa7148099e069b6030c2d75c6cb8775",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks?user=scala&repo=ALL&state=ALL"
+  },
+  "taskoteka-rider-detail.json": {
+    "captured": "2026-10-17",
+    "sha256": "0853240cfd02489e717a31d360bce51995a375c448706e82dc7da5b29760d816",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/431802"
+  },
+  "taskoteka-rider.json": {
+    "captured": "2026-10-17",
+    "sha256": "f6547edbfbb4432836bf40cdd611e285a50bc4b4bf25fe18634aa881658b3d0d",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks?user=rider&repo=ALL&state=ALL"
+  },
+  "taskoteka-schema.json": {
+    "captured": "2026-10-17",
+    "sha256": "0b6e1c5e1674f324648c3763eb2286d3d0bcaf282fffddf1f0125956d355ec76",
+    "transformation": "components/schemas extraction",
+    "url": "https://git.altlinux.org/tasks/api/openapi.json"
+  },
+  "taskoteka-source-delete.json": {
+    "captured": "2026-10-17",
+    "sha256": "ecb5d75cf1da9bd269643b7713b1b80cd02225b96f412649a6bf6849fccc66d3",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/437479"
+  },
+  "taskoteka-source-git.json": {
+    "captured": "2026-10-17",
+    "sha256": "703a4e67f560bb8a5ab9a795d0974c3b17f660653c4a2e2949814a3d855ec534",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/437508/gears/100/git"
+  },
+  "taskoteka-source-repo.json": {
+    "captured": "2026-10-17",
+    "sha256": "a8e1fb8f6d9ad3dba68edbd9ce5ff8df6123c078c9a3a505f3dc39326ca4e777",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/437508"
+  },
+  "taskoteka-source-srpm.json": {
+    "captured": "2026-10-17",
+    "sha256": "2bf517f31801bdbc073a3063eed8098c8584653de8016d1dd0d0c6df35288863",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/437328"
+  },
+  "version-scenarios.json": {
+    "origin": "constructed regression scenario; not a live API response",
+    "sha256": "37e5a071b62882a606bf36d17198f6e4e1472f731d8c4279f825484d1259e59b"
+  }
+}

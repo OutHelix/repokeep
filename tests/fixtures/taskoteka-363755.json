@@ -1,0 +1,72 @@
+{
+  "updated": 1792248869,
+  "taskid": 363755,
+  "shared": false,
+  "fail_early": true,
+  "test_only": false,
+  "repo": "c9f2",
+  "state": "FAILED",
+  "try": 6,
+  "iter": 1,
+  "age": 94,
+  "created": "2024-11-30T15:14:27",
+  "build_time": "2024-12-24T03:33:17",
+  "message": "CVE_fix",
+  "owner": "cas",
+  "subtasks": {
+    "4": {
+      "type": "srpm",
+      "srpm": "maven-compiler-plugin-3.8.0-alt1_1jpp8.src.rpm",
+      "userid": "cas",
+      "build": {
+        "aarch64": "failed",
+        "armh": "failed",
+        "i586": "failed",
+        "ppc64le": "failed",
+        "x86_64": "failed"
+      }
+    },
+    "10": { "userid": "cas" },
+    "14": { "userid": "cas" },
+    "20": {
+      "rebuild_from": "sisyphus",
+      "type": "srpm",
+      "srpm": "ongres-stringprep-1.1-alt1_2jpp11.src.rpm",
+      "pkgname": "ongres-stringprep",
+      "userid": "cas",
+      "build": {
+        "aarch64": "failed",
+        "armh": "failed",
+        "i586": "failed",
+        "ppc64le": "failed",
+        "x86_64": "failed"
+      }
+    },
+    "40": {
+      "rebuild_from": "sisyphus",
+      "type": "srpm",
+      "srpm": "ongres-scram-2.1-alt1_3jpp11.src.rpm",
+      "pkgname": "ongres-scram",
+      "userid": "cas",
+      "build": {
+        "aarch64": "failed",
+        "i586": "failed",
+        "ppc64le": "failed",
+        "x86_64": "failed"
+      }
+    },
+    "100": {
+      "rebuild_from": "sisyphus",
+      "type": "srpm",
+      "srpm": "postgresql-jdbc-42.6.2-alt1.src.rpm",
+      "pkgname": "postgresql-jdbc",
+      "userid": "cas",
+      "build": {
+        "aarch64": "failed",
+        "i586": "failed",
+        "ppc64le": "failed",
+        "x86_64": "failed"
+      }
+    }
+  }
+}

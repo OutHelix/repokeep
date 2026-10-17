@@ -1,0 +1,15 @@
+{
+  "task-build": "Task build",
+  "task-check-build": "Build check",
+  "task-check-girar": "Gears inheritance check",
+  "task-check-install": "Install check",
+  "task-check-lastchange": "SRPM inheritance check",
+  "task-check-neighbour-version": "Neighbour version check",
+  "task-check-noarch": "Noarch check",
+  "task-gen-hash": "Created hash files",
+  "task-gen-next-repo": "Created next repo",
+  "task-repo-elfsym": "ELF symbols check",
+  "task-repo-plan": "Duplicate provides check",
+  "task-repo-unmets": "Dependencies check",
+  "task-save-repo": "Preparing the repository"
+}

@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "repokeep"
+dynamic = ["version"]
+description = "ALT Linux maintainer package updates, upstream advisories and Girar tasks"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Evgeniy Serov", email = "scala@altlinux.org"}]
+dependencies = []
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: System :: Software Distribution",
+]
+
+[project.scripts]
+repokeep = "repokeep.cli:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "repokeep.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["repokeep*"]
+namespaces = false
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"

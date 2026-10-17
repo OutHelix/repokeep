@@ -1,0 +1,5 @@
+[
+  {"id":"PYSEC-fixture","aliases":["GHSA-fixture"],"summary":"Fixture component issue","database_specific":{"severity":"LOW"},"affected":[{"package":{"ecosystem":"Maven","name":"org.example:core"},"ranges":[{"type":"ECOSYSTEM","events":[{"introduced":"0"},{"fixed":"1.3"}]}]}]},
+  {"id":"GHSA-fixture","aliases":["CVE-2026-0001"],"database_specific":{"severity":"HIGH"},"affected":[{"package":{"ecosystem":"Maven","name":"org.example:core"},"ranges":[{"type":"ECOSYSTEM","events":[{"introduced":"0"},{"fixed":"1.3"}]}]},{"package":{"ecosystem":"Maven","name":"org.example:cli"},"ranges":[{"type":"ECOSYSTEM","events":[{"introduced":"0"},{"fixed":"1.5"}]}]}]},
+  {"id":"CVE-2026-0001","aliases":["PYSEC-fixture"],"database_specific":{"severity":"CRITICAL"},"affected":[{"package":{"ecosystem":"Maven","name":"org.example:core"},"ranges":[{"type":"ECOSYSTEM","events":[{"introduced":"0"},{"fixed":"1.4"}]}]}]}
+]

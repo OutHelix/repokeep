@@ -1,0 +1,31 @@
+{
+  "updated": 1792240562,
+  "taskid": 437508,
+  "shared": false,
+  "fail_early": true,
+  "test_only": false,
+  "repo": "sisyphus",
+  "state": "DONE",
+  "try": 1,
+  "iter": 1,
+  "age": 0,
+  "created": "2026-10-17T12:26:19",
+  "build_time": "2026-10-17T12:35:59",
+  "owner": "toni",
+  "subtasks": {
+    "100": {
+      "dir": "/people/toni/packages/python3-module-pivy.git",
+      "tag_name": "0.6.11-alt2",
+      "tag_id": "6e7ce808f78beeeb8c87e9eb5bcb775c4643bce0",
+      "tag_author": "Anton Vyatkin <toni@altlinux.org>",
+      "fetched": "2026-10-17T12:26:20",
+      "type": "repo",
+      "pkgname": "python3-module-pivy",
+      "userid": "toni",
+      "epoch": "2",
+      "version": "0.6.11",
+      "release": "alt2",
+      "build": { "aarch64": "built", "i586": "built", "x86_64": "built" }
+    }
+  }
+}

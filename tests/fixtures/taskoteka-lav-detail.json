@@ -1,0 +1,290 @@
+{
+  "updated": 1792244873,
+  "taskid": 437170,
+  "shared": false,
+  "fail_early": true,
+  "test_only": true,
+  "repo": "p11",
+  "state": "POSTPONED",
+  "try": 7,
+  "iter": 1,
+  "depends": [ 437234 ],
+  "age": 0,
+  "created": "2026-10-15T13:15:36",
+  "build_time": "2026-10-16T09:07:36",
+  "message": "MediaWiki 1.46 for p11 in one batch (Etersoft#12866); PoemChords, Yoficator, HIP removed",
+  "owner": "lav",
+  "subtasks": {
+    "40": {
+      "dir": "/people/lav/packages/rpm-build-mediawiki.git",
+      "tag_name": "0.7-alt1",
+      "tag_id": "0ae5d71bd6ab2eb9a0073fb446cca85da7dbbb73",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-15T20:35:53",
+      "type": "repo",
+      "pkgname": "rpm-build-mediawiki",
+      "userid": "lav"
+    },
+    "60": {
+      "dir": "/people/lav/packages/mediawiki-extensions-UserMerge.git",
+      "tag_name": "1.10.2-alt1",
+      "tag_id": "33423cff95d530e19e7549f6258ec92f4f080b31",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-15T20:35:56",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-UserMerge",
+      "userid": "lav"
+    },
+    "100": { "userid": "lav" },
+    "200": {
+      "dir": "/people/lav/packages/mediawiki.git",
+      "tag_name": "1.46.2-alt3",
+      "tag_id": "6f7cb3cf22e40fe205c30b00b490020f139472d3",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:34:58",
+      "type": "repo",
+      "pkgname": "mediawiki",
+      "userid": "lav"
+    },
+    "300": {
+      "dir": "/people/lav/packages/mediawiki-extensions-AccessControl.git",
+      "tag_name": "6.0-alt1",
+      "tag_id": "eb3284295b26b67eec284ecfb89e138f26821d80",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:01",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-AccessControl",
+      "userid": "lav"
+    },
+    "400": {
+      "dir": "/people/lav/packages/mediawiki-extensions-AdminLinks.git",
+      "tag_name": "0.7.1-alt1",
+      "tag_id": "e2cb0921521ea852ae5390fded2f1728f6528091",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:03",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-AdminLinks",
+      "userid": "lav"
+    },
+    "500": {
+      "dir": "/people/lav/packages/mediawiki-extensions-CharInsert.git",
+      "tag_name": "1.46-alt1",
+      "tag_id": "db9dba399de411088ea6b86de55c321d9d7be2e8",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:05",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-CharInsert",
+      "userid": "lav"
+    },
+    "540": {
+      "dir": "/people/lav/packages/mediawiki-extensions-Collection.git",
+      "tag_name": "1.46-alt1",
+      "tag_id": "1bc41e241f3d2cb899864e2631a9aa321be5b48e",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T05:23:54",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-Collection",
+      "userid": "lav"
+    },
+    "600": { "userid": "lav" },
+    "640": {
+      "dir": "/people/lav/packages/mediawiki-extensions-ConfirmAccount.git",
+      "tag_name": "1.46-alt1",
+      "tag_id": "888029d09a272f63db804bc657b10a7f39ba763e",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T05:23:59",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-ConfirmAccount",
+      "userid": "lav"
+    },
+    "700": { "userid": "lav" },
+    "740": {
+      "dir": "/people/lav/packages/mediawiki-extensions-EmbedVideo.git",
+      "tag_name": "4.2.0-alt2",
+      "tag_id": "0ec906c87d8d6adea48afb171e8dcc8861dc87c3",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T07:01:53",
+      "type": "repo",
+      "userid": "lav"
+    },
+    "1000": { "userid": "lav" },
+    "1040": {
+      "dir": "/people/lav/packages/mediawiki-extensions-Math.git",
+      "tag_name": "3.0.0.1.46-alt1",
+      "tag_id": "191f63bcc73cf233cdb1b78452ecbb4ec0c41151",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T05:24:05",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-Math",
+      "userid": "lav"
+    },
+    "1100": { "userid": "lav" },
+    "1200": {
+      "dir": "/people/lav/packages/mediawiki-extensions-NativeSvgHandler.git",
+      "tag_name": "1.5.0-alt1",
+      "tag_id": "9e15dee03860029d1889e0e9c7e16d4bfb3f86fc",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:19",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-NativeSvgHandler",
+      "userid": "lav"
+    },
+    "1300": {
+      "dir": "/gears/m/mediawiki-extensions-OpenGraphMeta.git",
+      "tag_name": "0.2012-alt1",
+      "tag_id": "7cf318b8b12cf3208b3d869f7eee05504ede7030",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:21",
+      "rebuild_from": "sisyphus",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-OpenGraphMeta",
+      "userid": "lav"
+    },
+    "1340": {
+      "dir": "/people/lav/packages/mediawiki-extensions-RandomPages.git",
+      "tag_name": "0.6.0-alt1",
+      "tag_id": "90f21f4093da3848204025018ce49ae9fad81ebb",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T05:24:09",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-RandomPages",
+      "userid": "lav"
+    },
+    "1400": { "userid": "lav" },
+    "1500": {
+      "dir": "/people/lav/packages/mediawiki-extensions-SecureHTML.git",
+      "tag_name": "3.0-alt3",
+      "tag_id": "52bcdb8da163d4810d441449859af32627e77a9c",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:26",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-SecureHTML",
+      "userid": "lav"
+    },
+    "1600": {
+      "dir": "/people/lav/packages/mediawiki-extensions-TimedMediaHandler.git",
+      "tag_name": "1.46-alt1",
+      "tag_id": "f2103aa8a415571d42fac768c73ef6fb54fa5314",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:29",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-TimedMediaHandler",
+      "userid": "lav"
+    },
+    "1700": {
+      "dir": "/people/lav/packages/mediawiki-extensions-WebDAV.git",
+      "tag_name": "3.1.0-alt1",
+      "tag_id": "a1828a12507c232dc2241493a1c890f7dd42a224",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:32",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-WebDAV",
+      "userid": "lav"
+    },
+    "1710": {
+      "dir": "/people/lav/packages/mediawiki-extensions-Widgets.git",
+      "tag_name": "1.7.0-alt2",
+      "tag_id": "2b4cef0a5fe9a637f5a10babaef6174bbc24cbde",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T09:07:32",
+      "type": "repo",
+      "userid": "lav"
+    },
+    "1720": { "userid": "lav" },
+    "1740": { "userid": "lav" },
+    "2000": { "userid": "lav" },
+    "2100": {
+      "dir": "/people/lav/packages/mediawiki-extensions-DynamicPageList.git",
+      "tag_name": "1.46-alt1",
+      "tag_id": "0998c09888ab2e1193e658cd2b6d7881f3b0c2ba",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:37",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-DynamicPageList",
+      "userid": "lav"
+    },
+    "2200": {
+      "dir": "/people/lav/packages/mediawiki-extensions-ProofreadPage.git",
+      "tag_name": "1.46-alt1",
+      "tag_id": "806b0efa9fc6c1e71087f7c4529056a0ecac81e0",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:40",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-ProofreadPage",
+      "userid": "lav"
+    },
+    "2300": {
+      "dir": "/people/lav/packages/mediawiki-extensions-Spoilers.git",
+      "tag_name": "2.2.9-alt1",
+      "tag_id": "d98c8de24fd6562127c4f17522a3168a4a68ef0f",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:43",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-Spoilers",
+      "userid": "lav"
+    },
+    "2400": {
+      "dir": "/people/lav/packages/mediawiki-extensions-SaferHTMLTag.git",
+      "tag_name": "0.4-alt1",
+      "tag_id": "41099d9aca678f6dc4faf9d6f5bdc708800ef928",
+      "tag_author": "Vitaly Lipatov <lav@altlinux.org>",
+      "fetched": "2026-10-16T04:35:46",
+      "type": "repo",
+      "pkgname": "mediawiki-extensions-SaferHTMLTag",
+      "userid": "lav"
+    },
+    "2500": { "userid": "lav" },
+    "2600": { "userid": "lav" },
+    "2700": { "userid": "lav" },
+    "3000": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-Dia",
+      "userid": "lav"
+    },
+    "3100": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-DoubleWiki",
+      "userid": "lav"
+    },
+    "3200": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-FileSync",
+      "userid": "lav"
+    },
+    "3300": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-FreeMind",
+      "userid": "lav"
+    },
+    "3400": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-MultiCategorySearch",
+      "userid": "lav"
+    },
+    "3500": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-MwEmbedSupport",
+      "userid": "lav"
+    },
+    "3600": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-SpecialNamespaces",
+      "userid": "lav"
+    },
+    "3700": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-Validator",
+      "userid": "lav"
+    },
+    "4000": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-VisualEditor",
+      "userid": "lav"
+    },
+    "4100": {
+      "type": "delete",
+      "pkgname": "mediawiki-extensions-WebStore",
+      "userid": "lav"
+    }
+  }
+}

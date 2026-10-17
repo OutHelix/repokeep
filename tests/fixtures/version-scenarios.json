@@ -1,0 +1,12 @@
+[
+  {"name":"project","repo":"owner/project","current":"3.2.1","tags":["v3.2.1","v3.2.4","v4.0.1","v4.1.0","v5.0.0-rc1","v6.0.0"],"status":"UPD","same":"3.2.4","majors":["4.1.0","6.0.0"]},
+  {"name":"project","repo":"owner/project","current":"3.2.1","prereleases":true,"tags":["v3.2.1","v3.3.0-rc2","v4.0.1","v5.0.0-rc1"],"status":"UPD","same":"3.3.0-rc2","majors":["4.0.1","5.0.0-rc1"]},
+  {"name":"project","repo":"owner/project","current":"2.0-M1","tags":["v2.0-M1","v2.0-M2","v2.0-RC1","v2.0.Final","v2.0-p1","v3.0-RC1"],"status":"UPD","same":"2.0-p1","majors":[]},
+  {"name":"calendar","repo":"owner/calendar","current":"20260101","tags":["20260101","20261001","20270101","v30.0","2026-10-01"],"status":"UPD","same":"20270101","majors":[]},
+  {"name":"serial","repo":"owner/serial","current":"43","tags":["43","44","45","46.0"],"status":"UPD","same":"45","majors":[]},
+  {"name":"project","repo":"owner/project","current":"1.2.3.7.gitabcdef123","tags":["v1.2.3","v1.2.4","v2.0.0"],"status":"UPD","same":"1.2.4","majors":["2.0.0"],"note":"Git snapshot after 1.2.3"},
+  {"name":"module-a","repo":"owner/monorepo","current":"1.2.0","tags":["module-a-1.2.0","module-a-1.3.0","module-b-1.2.0","module-b-99.0.0","v100.0.0"],"status":"UPD","same":"1.3.0","majors":[]},
+  {"name":"guava","repo":"google/guava","current":"31.0-jre","tags":["v31.0-jre","v31.1-jre","v32.0-jre","v31.0-android","v99.0-android","v100.0"],"status":"UPD","same":"31.1-jre","majors":["32.0-jre"]},
+  {"name":"missing","repo":"owner/monorepo","current":"1.0.0","tags":["one-1.0.0","one-1.1.0","two-1.0.0","two-9.0.0"],"status":"ERR","same":null,"majors":[],"note":"ambiguous tag families"},
+  {"name":"missing","repo":"owner/monorepo","current":"1.0.0","regex":"one-(?P<version>\\d+\\.\\d+\\.\\d+)","tags":["one-1.0.0","one-1.1.0","two-1.0.0","two-9.0.0"],"status":"UPD","same":"1.1.0","majors":[]}
+]

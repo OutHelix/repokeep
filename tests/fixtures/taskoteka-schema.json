@@ -1,0 +1,369 @@
+{
+  "Subtask": {
+    "type": "object",
+    "properties": {
+      "dir": {
+        "type": "string",
+        "description": "Git repo path",
+        "example": "/people/rider/packages/ocaml.git"
+      },
+      "tag_name": {
+        "type": "string",
+        "example": "5.4.1-alt1"
+      },
+      "tag_id": {
+        "type": "string",
+        "description": "Git tag SHA",
+        "example": "7fb98e415938fb0292ba7d684b8f83de5102cef9"
+      },
+      "tag_author": {
+        "type": "string",
+        "example": "Anton Farygin <rider@altlinux.org>"
+      },
+      "spec_type": {
+        "type": "string",
+        "description": "Spec type from gears/N/type"
+      },
+      "fetched": {
+        "type": "string",
+        "format": "date-time",
+        "description": "When pkg.tar was fetched (local time)",
+        "example": "2026-03-07T18:16:03"
+      },
+      "rebuild_from": {
+        "type": "string",
+        "description": "Source repo for rebuild",
+        "example": "sisyphus"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "repo",
+          "srpm",
+          "copy",
+          "delete"
+        ],
+        "description": "Subtask type"
+      },
+      "srpm": {
+        "type": "string",
+        "description": "SRPM filename (for type=srpm)"
+      },
+      "copy_repo": {
+        "type": "string",
+        "description": "Source repo for copy (for type=copy)"
+      },
+      "pkgname": {
+        "type": "string",
+        "description": "Package name (from build if available, otherwise from gears)",
+        "example": "SpamOracle"
+      },
+      "approved_by": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Users who approved",
+        "example": [
+          "cas"
+        ]
+      },
+      "disapproved_by": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Users who disapproved"
+      },
+      "approval_comments": {
+        "type": "object",
+        "description": "Approval comments keyed by username (only in task show)",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2026-03-05T03:02:34"
+            },
+            "text": {
+              "type": "string",
+              "example": "ok to commit"
+            }
+          }
+        }
+      },
+      "disapproval_comments": {
+        "type": "object",
+        "description": "Disapproval comments keyed by username (only in task show)",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "text": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "relax_git_inheritance_check_for_commit": {
+        "type": "string",
+        "description": "Git commit hash that relaxes git inheritance check"
+      },
+      "relax_lastchange_inheritance_check_for_evr": {
+        "type": "string",
+        "description": "EVR that relaxes lastchange inheritance check"
+      },
+      "userid": {
+        "type": "string",
+        "example": "rider"
+      },
+      "epoch": {
+        "type": "string",
+        "description": "Package epoch (only for DONE/EPERM/TESTED tasks)",
+        "example": "0"
+      },
+      "version": {
+        "type": "string",
+        "description": "Package version (only for DONE/EPERM/TESTED tasks)",
+        "example": "9.5.2"
+      },
+      "release": {
+        "type": "string",
+        "description": "Package release (only for DONE/EPERM/TESTED tasks)",
+        "example": "alt2"
+      },
+      "build": {
+        "type": "object",
+        "description": "Build status per architecture (only in task show). Values: built, cached, swept, excluded, failed. Absent if no build results.",
+        "additionalProperties": {
+          "type": "string",
+          "enum": [
+            "built",
+            "cached",
+            "swept",
+            "excluded",
+            "failed"
+          ]
+        },
+        "example": {
+          "aarch64": "built",
+          "i586": "failed",
+          "x86_64": "built"
+        }
+      }
+    }
+  },
+  "Task": {
+    "type": "object",
+    "description": "Full task info (girar task show --json format)",
+    "required": [
+      "updated",
+      "taskid",
+      "shared",
+      "fail_early",
+      "test_only",
+      "repo",
+      "state",
+      "owner"
+    ],
+    "properties": {
+      "updated": {
+        "type": "integer",
+        "description": "Unix timestamp of current time",
+        "example": 1773073640
+      },
+      "taskid": {
+        "type": "integer",
+        "example": 404247
+      },
+      "shared": {
+        "type": "boolean"
+      },
+      "fail_early": {
+        "type": "boolean"
+      },
+      "test_only": {
+        "type": "boolean"
+      },
+      "swift": {
+        "type": "boolean",
+        "description": "Present and true only for swift tasks"
+      },
+      "aborted_by": {
+        "type": "string",
+        "description": "Username who aborted the task"
+      },
+      "repo": {
+        "type": "string",
+        "example": "sisyphus"
+      },
+      "state": {
+        "type": "string",
+        "enum": [
+          "NEW",
+          "AWAITING",
+          "PENDING",
+          "BUILDING",
+          "COMMITTING",
+          "TESTED",
+          "FAILING",
+          "FAILED",
+          "DONE",
+          "SWEPT",
+          "EPERM",
+          "POSTPONED"
+        ],
+        "example": "BUILDING"
+      },
+      "try": {
+        "type": "integer",
+        "example": 7
+      },
+      "iter": {
+        "type": "integer",
+        "example": 1
+      },
+      "depends": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        },
+        "description": "Task IDs this task depends on"
+      },
+      "age": {
+        "type": "integer",
+        "description": "Weeks since last state change",
+        "example": 0
+      },
+      "build_time": {
+        "type": "string",
+        "format": "date-time",
+        "description": "When build log was last written (local time)",
+        "example": "2026-03-09T19:27:05"
+      },
+      "message": {
+        "type": "string",
+        "description": "Task message/comment",
+        "example": "ocaml 5.4"
+      },
+      "owner": {
+        "type": "string",
+        "example": "rider"
+      },
+      "subtasks": {
+        "type": "object",
+        "description": "Map of gear number (string) to subtask",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/Subtask"
+        }
+      }
+    }
+  },
+  "TaskSummary": {
+    "type": "object",
+    "description": "Task summary for list view",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "example": 404247
+      },
+      "state": {
+        "type": "string",
+        "example": "BUILDING"
+      },
+      "repo": {
+        "type": "string",
+        "example": "sisyphus"
+      },
+      "owner": {
+        "type": "string",
+        "example": "rider"
+      },
+      "build_time": {
+        "type": "string",
+        "format": "date-time",
+        "example": "2026-03-09T19:27:05"
+      },
+      "age": {
+        "type": "integer",
+        "example": 0
+      },
+      "created": {
+        "type": "string",
+        "format": "date-time",
+        "example": "2026-03-07T18:16:03"
+      },
+      "test_only": {
+        "type": "boolean"
+      },
+      "fail_early": {
+        "type": "boolean"
+      },
+      "try": {
+        "type": "integer"
+      },
+      "iter": {
+        "type": "integer"
+      },
+      "message": {
+        "type": "string",
+        "description": "Task message/comment",
+        "example": "ocaml 5.4"
+      },
+      "subtasks": {
+        "type": "object",
+        "description": "Abbreviated subtask info (dir, tag_name, type, userid, pkgname, approved_by, disapproved_by)",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "dir": {
+              "type": "string"
+            },
+            "tag_name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "userid": {
+              "type": "string"
+            },
+            "pkgname": {
+              "type": "string"
+            },
+            "approved_by": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Users who approved"
+            },
+            "disapproved_by": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Users who disapproved"
+            }
+          }
+        }
+      },
+      "matches": {
+        "type": "array",
+        "description": "Search match details (only present when q parameter is used). Each item is field:term showing where the search term matched.",
+        "items": {
+          "type": "string"
+        },
+        "example": [
+          "owner:rider",
+          "state:eperm",
+          "1/pkgname:php8.4"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "updated": 1792240584,
+  "taskid": 437328,
+  "shared": false,
+  "fail_early": true,
+  "test_only": true,
+  "repo": "sisyphus",
+  "state": "TESTED",
+  "try": 1,
+  "iter": 1,
+  "age": 0,
+  "created": "2026-10-16T20:27:08",
+  "build_time": "2026-10-16T20:32:02",
+  "owner": "lav",
+  "subtasks": {
+    "100": {
+      "type": "srpm",
+      "srpm": "perl-Tie-Filehandle-Preempt-Stdin-0.03-alt1.1.src.rpm",
+      "pkgname": "perl-Tie-Filehandle-Preempt-Stdin",
+      "userid": "lav",
+      "version": "0.03",
+      "release": "alt1.1",
+      "build": { "aarch64": "built", "i586": "built", "x86_64": "built" }
+    }
+  }
+}
