@@ -324,7 +324,7 @@ class WorkersTest(unittest.TestCase):
                     args = arguments(
                         "updates",
                         "-j",
-                        "3",
+                        "2",
                         "--no-progress",
                         "--package-timeout",
                         "5",

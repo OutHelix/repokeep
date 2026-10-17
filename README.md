@@ -41,6 +41,8 @@ repokeep tasks -m scala --json > tasks.json
 `-m/--maintainer` is required. For updates, it selects packages; for tasks, it
 selects the task owner. Updates default to Sisyphus. Tasks default to all branches,
 all states except DONE, newest first.
+Updates check one package at a time by default; `-j 2` enables two parallel checks
+(the maximum).
 Tasks use one layout with aligned subtasks and automatic wrapping in narrow terminals.
 `--source` keeps package names and adds source names with Git tags in brackets.
 Source names are clickable when terminal hyperlinks and colors are supported;

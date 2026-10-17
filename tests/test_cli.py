@@ -38,7 +38,7 @@ class CliTest(unittest.TestCase):
             ["updates"],
             ["tasks"],
             ["updates", "-m", ""],
-            ["updates", "-m", "other", "-j", "7"],
+            ["updates", "-m", "other", "-j", "3"],
             ["updates", "-m", "other", "--vuln-details"],
             ["tasks", "-m", "ALL"],
             ["tasks", "-m", "other", "--watch", "0"],
@@ -136,8 +136,11 @@ class CliTest(unittest.TestCase):
                         self.assertIn("error:", err.getvalue())
 
     def test_command_specific_options_keep_their_meaning(self):
-        update = arguments("updates", "--sort", "--repo", "example=owner/repo")
+        update = arguments(
+            "updates", "-j", "2", "--sort", "--repo", "example=owner/repo"
+        )
         task = arguments("tasks", "--sort", "package", "--repo", "p11", "--all")
+        self.assertEqual(update.jobs, 2)
         self.assertIs(update.sort, True)
         self.assertEqual(update.repo, [("example", "owner/repo")])
         self.assertEqual(

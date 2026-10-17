@@ -246,7 +246,7 @@ def configure_parser(parser):
         "--jobs",
         type=positive,
         default=1,
-        help="parallel package checks (default: 1, maximum: 6); use --sort to keep alphabetical output",
+        help="parallel package checks (default: 1, maximum: 2); use --sort to keep alphabetical output",
     )
     parser.add_argument(
         "--timeout",
@@ -289,8 +289,8 @@ def validate_args(args, parser):
         parser.error("--branch: expected one ALT branch")
     if any(not pattern for pattern in args.packages + args.package):
         parser.error("--package must not be empty")
-    if args.jobs > 6:
-        parser.error("--jobs must be at most 6")
+    if args.jobs > 2:
+        parser.error("--jobs must be at most 2")
     if args.vuln_details and not args.vulnerable_only:
         parser.error("--vuln-details requires --vulnerable-only")
     aliases = {
