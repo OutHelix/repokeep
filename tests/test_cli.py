@@ -27,7 +27,7 @@ class CliTest(unittest.TestCase):
                 self.assertEqual(result.stderr, "")
                 self.assertNotIn("\033", result.stdout)
                 if option == "--version":
-                    self.assertIn("0.1.0", result.stdout)
+                    self.assertIn("0.1.1", result.stdout)
         for command in ("updates", "tasks"):
             result = self.command(command, "--color", "always", "--help")
             self.assertNotIn("\033", result.stdout)
