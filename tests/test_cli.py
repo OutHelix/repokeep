@@ -4,7 +4,7 @@ import sys
 import unittest
 from unittest.mock import patch
 
-from repokeep import cli
+from repokeep import __version__, cli
 from repokeep.common import color_enabled
 from tests.support import arguments, streams
 
@@ -27,7 +27,10 @@ class CliTest(unittest.TestCase):
                 self.assertEqual(result.stderr, "")
                 self.assertNotIn("\033", result.stdout)
                 if option == "--version":
-                    self.assertIn("0.1.1", result.stdout)
+                    self.assertEqual(
+                        result.stdout,
+                        " ".join(["repokeep", *prefix, __version__]) + "\n",
+                    )
         for command in ("update", "task"):
             result = self.command(command, "--color", "always", "--help")
             self.assertNotIn("\033", result.stdout)
