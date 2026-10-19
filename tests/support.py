@@ -52,7 +52,7 @@ def fixture(name):
 def arguments(command, *options):
     root, parsers = parser()
     args = root.parse_args([command, "-m", "scala", *options])
-    (updates if command == "updates" else tasks).validate_args(args, parsers[command])
+    (updates if command == "update" else tasks).validate_args(args, parsers[command])
     return args
 
 

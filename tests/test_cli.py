@@ -19,7 +19,7 @@ class CliTest(unittest.TestCase):
         )
 
     def test_help_and_version_all_entry_points(self):
-        for prefix in ([], ["updates"], ["tasks"]):
+        for prefix in ([], ["update"], ["task"], ["task", "show"]):
             for option in ("--help", "--version"):
                 result = self.command(*prefix, option)
                 self.assertEqual(result.returncode, 0, result.stderr)
@@ -28,31 +28,41 @@ class CliTest(unittest.TestCase):
                 self.assertNotIn("\033", result.stdout)
                 if option == "--version":
                     self.assertIn("0.1.1", result.stdout)
-        for command in ("updates", "tasks"):
+        for command in ("update", "task"):
             result = self.command(command, "--color", "always", "--help")
             self.assertNotIn("\033", result.stdout)
 
     def test_invalid_arguments_and_no_implicit_maintainer(self):
         cases = [
             [],
-            ["updates"],
-            ["tasks"],
-            ["updates", "-m", ""],
-            ["updates", "-m", "other", "-j", "3"],
-            ["updates", "-m", "other", "--vuln-details"],
-            ["tasks", "-m", "ALL"],
-            ["tasks", "-m", "other", "--watch", "0"],
-            ["tasks", "-m", "other", "--watch", "4"],
-            ["tasks", "-m", "other", "--watch", "--json"],
-            ["tasks", "-m", "other", "--branch", "ALL,p11"],
-            ["tasks", "-m", "other", "--state", "FAILED,,DONE"],
-            ["tasks", "-m", "other", "--state", "unknown"],
-            ["tasks", "-m", "other", "--state", ""],
-            ["tasks", "-m", "other", "--package", ""],
-            ["tasks", "-m", "other", "--limit", "-1"],
-            ["tasks", "-m", "other", "--days", "0"],
-            ["tasks", "-m", "other", "--details"],
-            ["tasks", "-m", "other", "--with-source"],
+            ["update"],
+            ["task"],
+            ["updates", "-m", "other"],
+            ["tasks", "-m", "other"],
+            ["task", "show"],
+            ["task", "show", "0"],
+            ["task", "show", "-1"],
+            ["task", "show", "invalid"],
+            ["task", "show", "1", "2"],
+            ["task", "show", "1", "--timeout", "0"],
+            ["task", "show", "1", "-m", "ALL"],
+            ["task", "--limit", "1", "show", "1"],
+            ["update", "-m", ""],
+            ["update", "-m", "other", "-j", "3"],
+            ["update", "-m", "other", "--vuln-details"],
+            ["task", "-m", "ALL"],
+            ["task", "-m", "other", "--watch", "0"],
+            ["task", "-m", "other", "--watch", "4"],
+            ["task", "-m", "other", "--watch", "--json"],
+            ["task", "-m", "other", "--branch", "ALL,p11"],
+            ["task", "-m", "other", "--state", "FAILED,,DONE"],
+            ["task", "-m", "other", "--state", "unknown"],
+            ["task", "-m", "other", "--state", ""],
+            ["task", "-m", "other", "--package", ""],
+            ["task", "-m", "other", "--limit", "-1"],
+            ["task", "-m", "other", "--days", "0"],
+            ["task", "-m", "other", "--details"],
+            ["task", "-m", "other", "--with-source"],
         ]
         for argv in cases:
             with self.subTest(argv=argv), streams() as (out, err):
@@ -65,7 +75,7 @@ class CliTest(unittest.TestCase):
 
     def test_defaults_and_ctrl_c(self):
         root, _ = cli.parser()
-        args = root.parse_args(["updates", "-m", "someone"])
+        args = root.parse_args(["update", "-m", "someone"])
         self.assertEqual(
             (
                 args.maintainer,
@@ -95,7 +105,7 @@ class CliTest(unittest.TestCase):
             self.assertTrue(color_enabled("always", Tty()))
 
     def test_common_options_have_matching_defaults_and_normalization(self):
-        for command in ("updates", "tasks"):
+        for command in ("update", "task"):
             with self.subTest(command=command):
                 args = arguments(command, "-m", " ScAlA ")
                 self.assertEqual(args.maintainer, "scala")
@@ -137,9 +147,9 @@ class CliTest(unittest.TestCase):
 
     def test_command_specific_options_keep_their_meaning(self):
         update = arguments(
-            "updates", "-j", "2", "--sort", "--repo", "example=owner/repo"
+            "update", "-j", "2", "--sort", "--repo", "example=owner/repo"
         )
-        task = arguments("tasks", "--sort", "package", "--repo", "p11", "--all")
+        task = arguments("task", "--sort", "package", "--repo", "p11", "--all")
         self.assertEqual(update.jobs, 2)
         self.assertIs(update.sort, True)
         self.assertEqual(update.repo, [("example", "owner/repo")])

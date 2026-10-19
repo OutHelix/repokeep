@@ -16,24 +16,27 @@ def parser():
     root.add_argument("--version", action="version", version="%(prog)s " + __version__)
     commands = root.add_subparsers(dest="command", required=True)
     update_parser = commands.add_parser(
-        "updates", help="check GitHub releases or OSV advisories"
+        "update", help="check GitHub releases or OSV advisories"
     )
     updates.configure_parser(update_parser)
-    task_parser = commands.add_parser(
-        "tasks", help="list Girar tasks owned by a maintainer"
-    )
+    task_parser = commands.add_parser("task", help="list or inspect Girar tasks")
     tasks.configure_parser(task_parser)
-    return root, {"updates": update_parser, "tasks": task_parser}
+    actions = task_parser.add_subparsers(dest="task_action")
+    show_parser = actions.add_parser("show", help="show one task with all details")
+    tasks.configure_show_parser(show_parser)
+    return root, {"update": update_parser, "task": task_parser, "show": show_parser}
 
 
 def run(argv=None):
     root, commands = parser()
     args = root.parse_args(argv)
     selected = commands[args.command]
-    if args.command == "updates":
+    if args.command == "update":
         updates.validate_args(args, selected)
         return updates.main(args, selected)
-    tasks.validate_args(args, selected)
+    tasks.validate_args(
+        args, commands["show"] if args.task_action == "show" else selected
+    )
     return tasks.main(args)
 
 

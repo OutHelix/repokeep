@@ -21,7 +21,7 @@ class UpdatesTest(unittest.TestCase):
 
     def test_original_api_contract_and_acl_modes(self):
         for mode in updates.ACL_MODES:
-            args = arguments("updates", "--acl", mode)
+            args = arguments("update", "--acl", mode)
             with patch.object(updates, "request_data", return_value={}) as request:
                 updates.package_list(args)
             self.assertEqual(request.call_args.args[1], "/site/maintainer_packages")
@@ -49,7 +49,7 @@ class UpdatesTest(unittest.TestCase):
         self.assertEqual(github_repo("git@github.com:owner/repo.git"), "owner/repo")
 
     def test_category_request_and_intersection(self):
-        args = arguments("updates", "-g", "python")
+        args = arguments("update", "-g", "python")
         self.assertEqual(args.group, ["Development/Python", "Development/Python3"])
         values = [
             {"name": "one", "version": "1.0", "release": "alt1"},
@@ -100,7 +100,7 @@ class UpdatesTest(unittest.TestCase):
                 )
             )
             args = arguments(
-                "updates",
+                "update",
                 "--repo",
                 "pkg=new/repo",
                 "--current-version",
@@ -109,7 +109,7 @@ class UpdatesTest(unittest.TestCase):
                 "pkg=PyPI:new",
             )
             with patch.dict("os.environ", {"XDG_CONFIG_HOME": directory}):
-                rules = updates.load_rules(args, parser()[1]["updates"])
+                rules = updates.load_rules(args, parser()[1]["update"])
             self.assertEqual(rules["pkg"]["repo"], "new/repo")
             self.assertEqual(rules["pkg"]["current_version"], "2.0")
             self.assertEqual(
@@ -119,9 +119,9 @@ class UpdatesTest(unittest.TestCase):
     def test_explicit_missing_or_invalid_config(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "config.json"
-            args = arguments("updates", "--config=" + str(path))
+            args = arguments("update", "--config=" + str(path))
             with streams(), self.assertRaises(SystemExit) as exc:
-                updates.load_rules(args, parser()[1]["updates"])
+                updates.load_rules(args, parser()[1]["update"])
             self.assertEqual(exc.exception.code, 2)
             for document in (
                 [],
@@ -131,7 +131,7 @@ class UpdatesTest(unittest.TestCase):
             ):
                 path.write_text(json.dumps(document))
                 with streams(), self.assertRaises(SystemExit):
-                    updates.load_rules(args, parser()[1]["updates"])
+                    updates.load_rules(args, parser()[1]["update"])
 
     def test_check_statuses_and_release_not_compared(self):
         package = {"name": "project", "version": "3.2.1", "release": "alt999"}
@@ -147,22 +147,20 @@ class UpdatesTest(unittest.TestCase):
                 ),
                 patch.object(client, "tags", return_value=tags),
             ):
-                result = updates.check_package(
-                    package, {}, client, arguments("updates")
-                )
+                result = updates.check_package(package, {}, client, arguments("update"))
             self.assertEqual(result.status, status)
         client = Client(15)
         with patch.object(
             client, "resolve_repo", return_value=(None, "outside GitHub")
         ):
             self.assertEqual(
-                updates.check_package(package, {}, client, arguments("updates")).status,
+                updates.check_package(package, {}, client, arguments("update")).status,
                 "SKIP",
             )
 
     def test_main_dedup_masks_json_streams_and_counts(self):
         args = arguments(
-            "updates",
+            "update",
             "-p",
             "A*",
             "--json",
@@ -184,7 +182,7 @@ class UpdatesTest(unittest.TestCase):
             ) as worker,
             streams() as (out, err),
         ):
-            self.assertEqual(updates.main(args, parser()[1]["updates"]), 0)
+            self.assertEqual(updates.main(args, parser()[1]["update"]), 0)
         self.assertEqual(worker.call_args.args[0], [values[1]])
         self.assertEqual(json.loads(out.getvalue())[0]["same_major"], "1.2")
         self.assertIn("UPD=1", err.getvalue())
@@ -192,7 +190,7 @@ class UpdatesTest(unittest.TestCase):
         self.assertNotIn("\033", out.getvalue() + err.getvalue())
 
     def test_hidden_rows_still_count_and_errors_exit_two(self):
-        args = arguments("updates", "--updates-only", "--hide-skipped", "--no-color")
+        args = arguments("update", "--updates-only", "--hide-skipped", "--no-color")
         package = {"name": "one", "version": "1.0"}
         results = [
             Result("one", "1.0", "", status=s) for s in ("OK", "SKIP", "WARN", "ERR")
@@ -203,14 +201,14 @@ class UpdatesTest(unittest.TestCase):
             patch.object(updates, "package_results", return_value=(r for r in results)),
             streams() as (out, err),
         ):
-            self.assertEqual(updates.main(args, parser()[1]["updates"]), 2)
+            self.assertEqual(updates.main(args, parser()[1]["update"]), 2)
         self.assertNotIn("[OK]", out.getvalue())
         self.assertNotIn("[SKIP]", out.getvalue())
         for text in ("OK=1", "SKIP=1", "WARN=1", "ERR=1"):
             self.assertIn(text, err.getvalue())
 
     def test_osv_mode_does_not_require_git_and_keeps_warning_on_stderr(self):
-        args = arguments("updates", "--vulnerable-only", "--json", "--no-color")
+        args = arguments("update", "--vulnerable-only", "--json", "--no-color")
         result = Result(
             "one",
             "1.0",
@@ -234,7 +232,7 @@ class UpdatesTest(unittest.TestCase):
             ),
             streams() as (out, err),
         ):
-            self.assertEqual(updates.main(args, parser()[1]["updates"]), 0)
+            self.assertEqual(updates.main(args, parser()[1]["update"]), 0)
         self.assertEqual(
             json.loads(out.getvalue())[0]["vulnerabilities"][0]["id"],
             "CVE-2026-example",
@@ -243,7 +241,7 @@ class UpdatesTest(unittest.TestCase):
         self.assertIn("Packages with OSV matches: 1", err.getvalue())
 
     def test_empty_category_json_and_api_failure_streams(self):
-        args = arguments("updates", "--json", "-g", "java")
+        args = arguments("update", "--json", "-g", "java")
         with (
             patch.object(updates, "load_rules", return_value={}),
             patch.object(
@@ -254,13 +252,13 @@ class UpdatesTest(unittest.TestCase):
             patch.object(updates, "filter_groups", return_value=[]),
             streams() as (out, err),
         ):
-            self.assertEqual(updates.main(args, parser()[1]["updates"]), 0)
+            self.assertEqual(updates.main(args, parser()[1]["update"]), 0)
         self.assertEqual(json.loads(out.getvalue()), [])
         with (
             patch.object(updates, "load_rules", return_value={}),
             patch.object(updates, "package_list", side_effect=CheckError("HTTP 403")),
             streams() as (out, err),
         ):
-            self.assertEqual(updates.main(args, parser()[1]["updates"]), 2)
+            self.assertEqual(updates.main(args, parser()[1]["update"]), 2)
         self.assertEqual(out.getvalue(), "")
         self.assertIn("HTTP 403", err.getvalue())

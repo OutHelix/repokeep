@@ -140,7 +140,7 @@ class ServiceErrorsTest(unittest.TestCase):
                 connection,
                 "json-url",
                 "https://example.invalid/tasks",
-                arguments("tasks"),
+                arguments("task"),
             )
         connection.send.assert_called_once_with(
             (False, "invalid JSON from Taskoteka API")

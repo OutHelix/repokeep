@@ -151,6 +151,12 @@
     "transformation": "none",
     "url": "https://git.altlinux.org/tasks/api/tasks/435564"
   },
+  "taskoteka-excluded.json": {
+    "captured": "2026-10-19",
+    "sha256": "b76c7a17f99d1dc4e347aacac0db5aa3657066407f21f13a34d1642345c0d8ee",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/437537"
+  },
   "taskoteka-lav-detail.json": {
     "captured": "2026-10-17",
     "sha256": "19ba2c1f37a53def78e13e1d0aa2ddc9483c3b3fe1d66b22d2ffae3ef2f85f7a",

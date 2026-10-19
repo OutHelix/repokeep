@@ -40,7 +40,7 @@ class CurrentBuildsTest(unittest.TestCase):
                         if number == "4"
                         else tasks.ArchStatus.MISSING,
                     )
-        args = arguments("tasks", "-m", "cas", "--all", "--color", "always")
+        args = arguments("task", "-m", "cas", "--all", "--color", "always")
         text = tasks.render([result], args, 1, 220)
         for arch in tasks.ARCHITECTURES:
             self.assertEqual(text.count("\033[1;31m" + arch), 1)
@@ -65,7 +65,7 @@ class CurrentBuildsTest(unittest.TestCase):
     def test_json_and_plain_output_use_current_build_results(self):
         row = tasks.normalize(fixture("taskoteka-363755"))
         row["subtasks"] = task_status.current_subtasks(row, fixture("altrepo-363755"))
-        args = arguments("tasks", "-m", "cas", "--all", "--json", "--color", "always")
+        args = arguments("task", "-m", "cas", "--all", "--json", "--color", "always")
         with (
             patch.object(tasks, "snapshot", return_value=([row], 1, [])),
             streams() as (out, err),
@@ -77,7 +77,7 @@ class CurrentBuildsTest(unittest.TestCase):
         self.assertIn("source", result["subtasks"]["100"])
         self.assertEqual(err.getvalue(), "")
         self.assertNotIn("\033", out.getvalue())
-        text = tasks.render([row], arguments("tasks", "--all", "--no-color"), 1, 160)
+        text = tasks.render([row], arguments("task", "--all", "--no-color"), 1, 160)
         self.assertNotIn("\033", text)
         self.assertEqual(text.count("x86_64"), 4)
 
@@ -89,7 +89,7 @@ class CurrentBuildsTest(unittest.TestCase):
             ("processed", tasks.ArchStatus.SUCCESS, "cached"),
             ("failed", tasks.ArchStatus.FAILED, "failed"),
             ("started", tasks.ArchStatus.WAITING, "building"),
-            ("excluded", tasks.ArchStatus.SKIPPED, "excluded"),
+            ("excluded", tasks.ArchStatus.EXCLUDED, "excluded"),
             ("swept", tasks.ArchStatus.SKIPPED, "swept"),
             ("pending", tasks.ArchStatus.WAITING, "pending"),
             ("future-result", tasks.ArchStatus.UNKNOWN, "future-result"),

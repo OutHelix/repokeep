@@ -111,7 +111,7 @@ class WorkersTest(unittest.TestCase):
             ):
                 self.assertEqual(
                     workers.request_worker(
-                        "request", None, arguments("updates"), "timeout"
+                        "request", None, arguments("update"), "timeout"
                     ),
                     value,
                 )
@@ -127,7 +127,7 @@ class WorkersTest(unittest.TestCase):
                 patch.object(workers, "stop_workers") as stop,
                 self.assertRaises(type(error)),
             ):
-                workers.request_worker("request", None, arguments("updates"), "timeout")
+                workers.request_worker("request", None, arguments("update"), "timeout")
             stop.assert_called_once_with([worker])
 
     def test_api_request_timeout_keeps_source_message(self):
@@ -142,7 +142,7 @@ class WorkersTest(unittest.TestCase):
             workers.request_worker(
                 "request",
                 None,
-                arguments("updates"),
+                arguments("update"),
                 "ALTRepo request timed out: /packages",
             )
         stop.assert_called_once_with([worker])
@@ -154,7 +154,7 @@ class WorkersTest(unittest.TestCase):
             patch.object(task_status, "API", url + "/progress/"),
         ):
             rows, total, warnings = tasks.snapshot(
-                arguments("tasks", "--arch", "--timeout", "5")
+                arguments("task", "--arch", "--timeout", "5")
             )
         self.assertEqual(total, 1)
         self.assertEqual(warnings, [])
@@ -174,7 +174,7 @@ class WorkersTest(unittest.TestCase):
             patch.object(task_status, "API", url + "/progress/"),
         ):
             rows, total, warnings = tasks.snapshot(
-                arguments("tasks", "--source", "--timeout", "5")
+                arguments("task", "--source", "--timeout", "5")
             )
         self.assertEqual(total, 1)
         self.assertEqual(warnings, [])
@@ -207,7 +207,7 @@ class WorkersTest(unittest.TestCase):
             patch.object(task_status, "TASKS", url + "/"),
         ):
             rows, warnings = tasks.fetch_statuses(
-                [row], arguments("tasks", "-m", "majioa", "--timeout", "5")
+                [row], arguments("task", "-m", "majioa", "--timeout", "5")
             )
         self.assertEqual(warnings, [])
         self.assertEqual(rows[0]["failed_check"], "Noarch check")
@@ -215,7 +215,7 @@ class WorkersTest(unittest.TestCase):
 
     def test_detail_failure_keeps_names_and_rejects_mismatches(self):
         rows = fixture("taskoteka-list")[:1]
-        args = arguments("tasks", "--arch", "--timeout", "3")
+        args = arguments("task", "--arch", "--timeout", "3")
         with server() as (url, _), patch.object(tasks, "API", url):
             output, warnings = tasks.fetch_details(rows, args)
         self.assertEqual(output, rows)
@@ -232,9 +232,9 @@ class WorkersTest(unittest.TestCase):
         initial = {p.pid for p in multiprocessing.active_children()}
         with server() as (url, _):
             with self.assertRaisesRegex(CheckError, "timed out"):
-                tasks.request_json(arguments("tasks", "--timeout", "1"), url + "/slow")
+                tasks.request_json(arguments("task", "--timeout", "1"), url + "/slow")
             with self.assertRaisesRegex(CheckError, "invalid JSON"):
-                tasks.request_json(arguments("tasks"), url + "/invalid")
+                tasks.request_json(arguments("task"), url + "/invalid")
         self.assertEqual({p.pid for p in multiprocessing.active_children()}, initial)
 
     def fake_git(self, directory, hanging=False):
@@ -322,7 +322,7 @@ class WorkersTest(unittest.TestCase):
                 for sorted_output in (False, True):
                     release.unlink(missing_ok=True)
                     args = arguments(
-                        "updates",
+                        "update",
                         "-j",
                         "2",
                         "--no-progress",
@@ -352,7 +352,7 @@ class WorkersTest(unittest.TestCase):
                 "REPOKEEP_TEST_GIT": str(Path(directory) / "git"),
             }
             args = arguments(
-                "updates", "--timeout", "10", "--package-timeout", "2", "--no-progress"
+                "update", "--timeout", "10", "--package-timeout", "2", "--no-progress"
             )
             with patch.dict(os.environ, env):
                 result = list(
@@ -380,7 +380,7 @@ class WorkersTest(unittest.TestCase):
                 },
             ):
                 args = arguments(
-                    "updates",
+                    "update",
                     "--timeout",
                     "1",
                     "--package-timeout",
@@ -415,7 +415,7 @@ class WorkersTest(unittest.TestCase):
                             root, _ = cli.parser()
                             args = root.parse_args(
                                 [
-                                    "updates",
+                                    "update",
                                     "-m",
                                     "other",
                                     "--no-progress",

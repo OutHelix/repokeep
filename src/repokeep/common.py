@@ -16,13 +16,18 @@ def maintainer_login(value):
     return value
 
 
-def output_arguments(parser, json_help):
+def output_arguments(parser, json_help, *, defaults=True):
     group = parser.add_argument_group("Output options")
-    group.add_argument("--json", action="store_true", help=json_help)
+    group.add_argument(
+        "--json",
+        action="store_true",
+        default=False if defaults else argparse.SUPPRESS,
+        help=json_help,
+    )
     group.add_argument(
         "--color",
         choices=("auto", "always", "never"),
-        default="auto",
+        default="auto" if defaults else argparse.SUPPRESS,
         help="execution colors (default: auto; respects NO_COLOR; help is always plain)",
     )
     group.add_argument(
@@ -30,6 +35,7 @@ def output_arguments(parser, json_help):
         dest="color",
         action="store_const",
         const="never",
+        default=argparse.SUPPRESS,
         help="disable execution colors",
     )
     group.add_argument("--version", action="version", version="%(prog)s " + __version__)

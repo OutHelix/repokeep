@@ -44,6 +44,7 @@ STATE_COLORS = {
 class ArchStatus(Enum):
     SUCCESS = "built/cached"
     FAILED = "failed"
+    EXCLUDED = "excluded"
     SKIPPED = "skipped"
     WAITING = "waiting"
     MISSING = "no data"
@@ -179,7 +180,9 @@ def arch_status(subtask, architecture):
         return ArchStatus.SUCCESS
     if status == "failed":
         return ArchStatus.FAILED
-    if status in ("excluded", "swept"):
+    if status == "excluded":
+        return ArchStatus.EXCLUDED
+    if status == "swept":
         return ArchStatus.SKIPPED
     if status in (None, ""):
         return (
@@ -270,7 +273,8 @@ def uint(value):
 
 def configure_parser(parser):
     parser.description = (
-        "List Girar tasks owned by a specific maintainer. Defaults: all branches, "
+        "List Girar tasks owned by a specific maintainer, or use show ID for one task. "
+        "Defaults for lists: all branches, "
         "all states except DONE, latest build log first. Package filters select tasks; all "
         "their packages remain visible. Output adapts to terminal width. "
         "Stages appear for BUILDING and failed checks for FAILED tasks. "
@@ -279,7 +283,8 @@ def configure_parser(parser):
     parser.epilog = (
         "Only tasks still available in the API are listed; this is not a complete archive. "
         "Exit codes: 0 success (including no matches), 1 API/detail error, 2 invalid options. "
-        "Architecture colors: green built/cached, red failed, gray skipped/waiting/no data/unknown."
+        "Architecture colors: green built/cached, red failed, gray skipped/waiting/no data/unknown; "
+        "excluded architectures are gray and struck through."
     )
     if hasattr(parser, "color"):
         parser.color = False
@@ -287,8 +292,7 @@ def configure_parser(parser):
         "-m",
         "--maintainer",
         type=maintainer_login,
-        required=True,
-        help="task owner, not subtask author or package ACL member",
+        help="task owner, not subtask author or package ACL member; required for lists",
     )
     parser.add_argument(
         "-b",
@@ -374,7 +378,53 @@ def configure_parser(parser):
     )
 
 
+def configure_show_parser(parser):
+    parser.description = (
+        "Show one Girar task by ID, including DONE tasks. Architectures, sources "
+        "and approvals are enabled by default; the owner is read from the task."
+    )
+    parser.epilog = (
+        "Only tasks still available in the API can be shown. "
+        "Exit codes: 0 success, 1 API/detail or owner mismatch error, 2 invalid options."
+    )
+    if hasattr(parser, "color"):
+        parser.color = False
+    parser.add_argument("task_id", type=positive, metavar="ID", help="positive task ID")
+    parser.add_argument(
+        "-m",
+        "--maintainer",
+        type=maintainer_login,
+        default=argparse.SUPPRESS,
+        help="optional expected task owner",
+    )
+    parser.add_argument(
+        "--timeout",
+        type=positive,
+        default=argparse.SUPPRESS,
+        help="total request timeout in seconds (default: 15)",
+    )
+    output_arguments(
+        parser, "output a one-element JSON array with all details", defaults=False
+    )
+
+
 def validate_args(args, parser):
+    if args.task_action == "show":
+        args.all = True
+        if (
+            args.branch != "ALL"
+            or args.state
+            or args.package
+            or args.limit
+            or args.days
+            or args.sort != "time"
+            or args.reverse
+        ):
+            parser.error(
+                "branch, state, package, date, limit and sort options apply to lists only"
+            )
+    elif args.maintainer is None:
+        parser.error("-m/--maintainer is required when listing tasks")
     args.arch = args.arch or args.all
     args.source = args.source or args.all
     args.approvals = args.approvals or args.all
@@ -483,6 +533,18 @@ def fetch_statuses(rows, args):
 
 
 def snapshot(args):
+    if args.task_action == "show":
+        task = normalize(request_json(args, API + "/tasks/" + str(args.task_id)))
+        if task["id"] != args.task_id:
+            raise CheckError("task details do not match requested ID")
+        owner = task["owner"].lower()
+        if args.maintainer is not None and args.maintainer != owner:
+            raise CheckError(
+                f"task #{args.task_id} is owned by {task['owner']}, not {args.maintainer}"
+            )
+        args.maintainer, args.branch = owner, task["repo"]
+        rows, warnings = fetch_statuses([task], args)
+        return rows, 1, warnings
     query = urllib.parse.urlencode(
         {"user": args.maintainer, "repo": args.branch, "state": "ALL"}
     )
@@ -505,7 +567,11 @@ def snapshot(args):
 
 
 def subtask_parts(subtask, arch, approvals):
-    colors = {ArchStatus.SUCCESS: "32", ArchStatus.FAILED: "1;31"}
+    colors = {
+        ArchStatus.SUCCESS: "32",
+        ArchStatus.FAILED: "1;31",
+        ArchStatus.EXCLUDED: "9;90",
+    }
     parts = []
     if arch:
         for architecture in ARCHITECTURES:
@@ -671,6 +737,8 @@ def render(rows, args, total, width=None):
     listing = f"Listing {len(rows)} tasks: {owner} / {branch}" + (
         f" ({total} matched)" if total > len(rows) else ""
     )
+    if args.task_action == "show":
+        listing = f"Task {args.task_id}: {owner} / {branch}"
     lines = [wrapped_parts([(listing, None)], width)]
     if args.watch:
         lines.append(

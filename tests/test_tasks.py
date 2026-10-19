@@ -96,7 +96,7 @@ class TasksTest(unittest.TestCase):
             ["--all"],
         ):
             with self.subTest(options=options):
-                args = arguments("tasks", *options)
+                args = arguments("task", *options)
                 with (
                     patch.object(tasks, "request_json", return_value=[task()]),
                     patch.object(
@@ -148,7 +148,7 @@ class TasksTest(unittest.TestCase):
                     streams() as (out, err),
                 ):
                     self.assertEqual(
-                        cli.run(["tasks", "-m", "scala", *flags, *output_options]), 0
+                        cli.run(["task", "-m", "scala", *flags, *output_options]), 0
                     )
                     fetch.assert_called_once()
                     selected, args = fetch.call_args.args
@@ -188,7 +188,7 @@ class TasksTest(unittest.TestCase):
             }
         )
         original = json.dumps(row, sort_keys=True)
-        args = arguments("tasks", "--source", "-p", "built-*")
+        args = arguments("task", "--source", "-p", "built-*")
         self.assertEqual(tasks.select_tasks([row], args), [row])
         self.assertEqual(
             [name for _, name, _ in tasks.package_rows(row, source=True)],
@@ -200,7 +200,7 @@ class TasksTest(unittest.TestCase):
             ],
         )
         self.assertEqual(
-            tasks.select_tasks([row], arguments("tasks", "--source", "-p", "gear-*")),
+            tasks.select_tasks([row], arguments("task", "--source", "-p", "gear-*")),
             [],
         )
         self.assertEqual(json.dumps(row, sort_keys=True), original)
@@ -222,10 +222,10 @@ class TasksTest(unittest.TestCase):
         ):
             with self.subTest(width=width, options=options):
                 plain = tasks.render(
-                    rows, arguments("tasks", *options, "--no-color"), 4, width
+                    rows, arguments("task", *options, "--no-color"), 4, width
                 )
                 colored = tasks.render(
-                    rows, arguments("tasks", *options, "--color", "always"), 4, width
+                    rows, arguments("task", *options, "--color", "always"), 4, width
                 )
                 self.assertEqual(plain_text(colored), plain)
                 self.assertTrue(all(len(line) <= width for line in plain.splitlines()))
@@ -264,7 +264,7 @@ class TasksTest(unittest.TestCase):
                     self.assertEqual(
                         "x86_64" in package_line, bool(expected_architectures)
                     )
-        output = tasks.render(rows, arguments("tasks", "--no-color"), 4, 160)
+        output = tasks.render(rows, arguments("task", "--no-color"), 4, 160)
         self.assertNotIn("Source:", output)
         self.assertNotIn("https://git.altlinux.org/tasks/", output)
 
@@ -280,7 +280,7 @@ class TasksTest(unittest.TestCase):
         ):
             with self.subTest(options=options, width=width):
                 output = tasks.render(
-                    [row], arguments("tasks", *options, "--color", "always"), 1, width
+                    [row], arguments("task", *options, "--color", "always"), 1, width
                 )
                 body = output.split("#100", 1)[1].split("\n\n", 1)[0]
                 self.assertNotIn("\033[1m", body)
@@ -304,7 +304,7 @@ class TasksTest(unittest.TestCase):
             with self.subTest(width=width):
                 output = tasks.render(
                     [row],
-                    arguments("tasks", "--arch", "--source", "--color", "always"),
+                    arguments("task", "--arch", "--source", "--color", "always"),
                     1,
                     width,
                 )
@@ -327,7 +327,7 @@ class TasksTest(unittest.TestCase):
     def test_wrapped_source_hyperlinks_close_before_architectures(self):
         row = tasks.normalize(fixture("taskoteka-detail"))
         output = tasks.render(
-            [row], arguments("tasks", "--arch", "--source", "--color", "always"), 1, 72
+            [row], arguments("task", "--arch", "--source", "--color", "always"), 1, 72
         )
         for line in output.splitlines():
             targets = re.findall(r"\033\]8;;([^\033]*)\033\\", line)
@@ -336,7 +336,7 @@ class TasksTest(unittest.TestCase):
                 self.assertLess(line.rfind("\033]8;;\033\\"), line.index("x86_64"))
         deleted = tasks.normalize(fixture("taskoteka-source-delete"))
         plain = tasks.render(
-            [deleted], arguments("tasks", "--source", "--no-color"), 1, 72
+            [deleted], arguments("task", "--source", "--no-color"), 1, 72
         )
         self.assertIn("woadaptor", plain)
         self.assertIn("woadaptor [not applicable (delete)]", plain)
@@ -344,7 +344,7 @@ class TasksTest(unittest.TestCase):
     def test_source_json_preserves_raw_subtasks_and_deleted_placeholders(self):
         row = tasks.normalize(fixture("taskoteka-detail"))
         original = json.dumps(row, sort_keys=True)
-        args = arguments("tasks", "--source", "--json", "--color", "always")
+        args = arguments("task", "--source", "--json", "--color", "always")
         with (
             patch.object(tasks, "snapshot", return_value=([row], 1, [])),
             streams() as (out, err),
@@ -364,7 +364,7 @@ class TasksTest(unittest.TestCase):
 
     def test_layout_follows_terminal_width_on_each_render(self):
         rows = [task(435995, test_only=True)]
-        args = arguments("tasks", "--arch", "--no-color")
+        args = arguments("task", "--arch", "--no-color")
         with patch.object(
             tasks.shutil,
             "get_terminal_size",
@@ -388,7 +388,7 @@ class TasksTest(unittest.TestCase):
                             ["--source"] if source else []
                         )
                         output = tasks.render(
-                            [row], arguments("tasks", *options, "--no-color"), 1, width
+                            [row], arguments("task", *options, "--no-color"), 1, width
                         )
                         lines = [
                             line
@@ -417,11 +417,11 @@ class TasksTest(unittest.TestCase):
                 with self.subTest(width=width, arch=arch):
                     options = ["--watch", "5"] + (["--arch"] if arch else [])
                     plain = tasks.render(
-                        rows, arguments("tasks", *options, "--no-color"), 123, width
+                        rows, arguments("task", *options, "--no-color"), 123, width
                     )
                     colored = tasks.render(
                         rows,
-                        arguments("tasks", *options, "--color", "always"),
+                        arguments("task", *options, "--color", "always"),
                         123,
                         width,
                     )
@@ -447,7 +447,7 @@ class TasksTest(unittest.TestCase):
             )
         ]
         output = tasks.render(
-            rows, arguments("tasks", "--arch", "--color", "always"), 1, 40
+            rows, arguments("task", "--arch", "--color", "always"), 1, 40
         )
         plain = re.sub(r"\033\[[0-9;]*m", "", output)
         package_lines = plain.split("#100", 1)[1].split("x86_64", 1)[0]
@@ -468,7 +468,7 @@ class TasksTest(unittest.TestCase):
             task(1, subtasks={"100": {"pkgname": "python3-module-example"}}),
             tasks.normalize(fixture("taskoteka-detail")),
         ]
-        output = tasks.render(rows, arguments("tasks", "--arch", "--no-color"), 2, 72)
+        output = tasks.render(rows, arguments("task", "--arch", "--no-color"), 2, 72)
         package_lines = [line for line in output.splitlines() if "python3-" in line]
         self.assertEqual(len(package_lines), 7)
         self.assertEqual(len({line.index("python3-") for line in package_lines}), 1)
@@ -478,7 +478,7 @@ class TasksTest(unittest.TestCase):
 
     def test_stacked_subtasks_have_separate_groups(self):
         row = tasks.normalize(fixture("taskoteka-detail"))
-        output = tasks.render([row], arguments("tasks", "--arch", "--no-color"), 1, 40)
+        output = tasks.render([row], arguments("task", "--arch", "--no-color"), 1, 40)
         self.assertIn("  ├─  #40  python3-module-owlrl\n  │        x86_64", output)
         self.assertIn("\n  │\n  ├─ #120", output)
         self.assertIn("  └─ #460  python3-module-spdx-tools\n           x86_64", output)
@@ -489,7 +489,7 @@ class TasksTest(unittest.TestCase):
             task(1, subtasks={"100": {"pkgname": name}}),
             task(2),
         ]
-        output = tasks.render(rows, arguments("tasks", "--arch", "--no-color"), 2, 72)
+        output = tasks.render(rows, arguments("task", "--arch", "--no-color"), 2, 72)
         package_line = next(line for line in output.splitlines() if "example" in line)
         self.assertIn("x86_64  i586  aarch64", package_line)
         first_task = output.split("[2/2]", 1)[0]
@@ -499,7 +499,7 @@ class TasksTest(unittest.TestCase):
         self.assertIn("x86_64", package_lines[0])
 
     def test_compact_layout_supports_ascii_output_encoding(self):
-        args = arguments("tasks", "--arch", "--no-color")
+        args = arguments("task", "--arch", "--no-color")
         with io.TextIOWrapper(io.BytesIO(), encoding="ascii") as stream:
             with patch.object(tasks.sys, "stdout", stream):
                 output = tasks.render(
@@ -514,7 +514,7 @@ class TasksTest(unittest.TestCase):
         name = "python3-module-" + "x" * 80
         output = tasks.render(
             [task(subtasks={"100": {"pkgname": name}})],
-            arguments("tasks", "--arch", "--no-color"),
+            arguments("task", "--arch", "--no-color"),
             1,
             110,
         )
@@ -527,7 +527,7 @@ class TasksTest(unittest.TestCase):
         self.assertIn("x86_64", row)
 
     def test_narrow_empty_output_and_no_color(self):
-        args = arguments("tasks", "--arch")
+        args = arguments("task", "--arch")
         with (
             patch.dict(os.environ, {"NO_COLOR": "1"}),
             patch.object(tasks.sys.stdout, "isatty", return_value=True),
@@ -541,7 +541,7 @@ class TasksTest(unittest.TestCase):
 
     def test_json_does_not_depend_on_terminal_width(self):
         rows = [tasks.normalize(fixture("taskoteka-detail"))]
-        args = arguments("tasks", "--json", "--arch")
+        args = arguments("task", "--json", "--arch")
         with (
             patch.object(tasks, "snapshot", return_value=(rows, 1, [])),
             patch.object(tasks.shutil, "get_terminal_size", side_effect=AssertionError),
@@ -552,7 +552,7 @@ class TasksTest(unittest.TestCase):
         self.assertEqual(err.getvalue(), "")
 
     def test_saved_responses_and_deleted_placeholders(self):
-        args = arguments("tasks")
+        args = arguments("task")
         rows = tasks.select_tasks(fixture("taskoteka-list"), args)
         self.assertEqual(
             [row["id"] for row in rows],
@@ -583,7 +583,7 @@ class TasksTest(unittest.TestCase):
             ),
         ]
         self.assertEqual(
-            [t["id"] for t in tasks.select_tasks(values, arguments("tasks"))], [1]
+            [t["id"] for t in tasks.select_tasks(values, arguments("task"))], [1]
         )
 
     def test_task_filter_retains_all_packages(self):
@@ -593,7 +593,7 @@ class TasksTest(unittest.TestCase):
                 "100": {"type": "repo", "pkgname": "Python3-Module-Example"},
             }
         )
-        args = arguments("tasks", "-p", "python3-*")
+        args = arguments("task", "-p", "python3-*")
         rows = tasks.select_tasks([value], args)
         output = tasks.render(rows, args, 1)
         self.assertIn("unrelated-long-package-name", output)
@@ -631,7 +631,7 @@ class TasksTest(unittest.TestCase):
                 ("400", "copied"),
             ],
         )
-        args = arguments("tasks", "--arch", "--no-color")
+        args = arguments("task", "--arch", "--no-color")
         output = tasks.render([task(subtasks={})], args, 1)
         self.assertIn("(no packages)", output)
         self.assertIn("x86_64", output)
@@ -651,9 +651,9 @@ class TasksTest(unittest.TestCase):
             }
         )
         output = tasks.render(
-            [value], arguments("tasks", "--arch", "--color", "always"), 1
+            [value], arguments("task", "--arch", "--color", "always"), 1
         )
-        for code, name in [("32", "x86_64"), ("1;31", "i586"), ("90", "aarch64")]:
+        for code, name in [("32", "x86_64"), ("1;31", "i586"), ("9;90", "aarch64")]:
             self.assertIn("\033[" + code + "m" + name, output)
         self.assertNotIn(" OK", output)
         self.assertNotIn(" FAIL", output)
@@ -666,12 +666,12 @@ class TasksTest(unittest.TestCase):
             task(4, created=(FIXED_DATE - timedelta(days=7)).isoformat()),
         ]
         self.assertEqual(
-            [t["id"] for t in tasks.select_tasks(values, arguments("tasks"))], [4, 3, 1]
+            [t["id"] for t in tasks.select_tasks(values, arguments("task"))], [4, 3, 1]
         )
         self.assertEqual(
             [
                 t["id"]
-                for t in tasks.select_tasks(values, arguments("tasks", "-s", "DONE"))
+                for t in tasks.select_tasks(values, arguments("task", "-s", "DONE"))
             ],
             [2],
         )
@@ -679,7 +679,7 @@ class TasksTest(unittest.TestCase):
             [
                 t["id"]
                 for t in tasks.select_tasks(
-                    values, arguments("tasks", "-b", "p11", "--days", "1")
+                    values, arguments("task", "-b", "p11", "--days", "1")
                 )
             ],
             [1],
@@ -689,7 +689,7 @@ class TasksTest(unittest.TestCase):
             [
                 t["id"]
                 for t in tasks.select_tasks(
-                    values, arguments("tasks", "--sort", "branch")
+                    values, arguments("task", "--sort", "branch")
                 )
             ],
             [1, 4],
@@ -697,14 +697,14 @@ class TasksTest(unittest.TestCase):
         self.assertEqual(
             [
                 t["id"]
-                for t in tasks.select_tasks(values, arguments("tasks", "--reverse"))
+                for t in tasks.select_tasks(values, arguments("task", "--reverse"))
             ],
             [1, 4],
         )
 
     def test_request_contract_limit_and_detail_reselection(self):
         values = [task(1), task(2), task(3)]
-        args = arguments("tasks", "-n", "2", "--arch")
+        args = arguments("task", "-n", "2", "--arch")
         with (
             patch.object(tasks, "request_json", return_value=values) as request,
             patch.object(
@@ -726,7 +726,7 @@ class TasksTest(unittest.TestCase):
         self.assertTrue(warnings)
 
     def test_main_json_errors_and_empty_matches(self):
-        args = arguments("tasks", "--json", "--no-color")
+        args = arguments("task", "--json", "--no-color")
         for rows, warnings, code in [
             ([task()], [], 0),
             ([task()], ["warning: details failed"], 1),
@@ -751,7 +751,7 @@ class TasksTest(unittest.TestCase):
         self.assertIn("HTTP 503", err.getvalue())
 
     def test_watch_keeps_previous_snapshot_on_error(self):
-        args = arguments("tasks", "--watch", "5", "--no-color")
+        args = arguments("task", "--watch", "5", "--no-color")
         with (
             patch.object(
                 tasks, "snapshot", side_effect=[([], 0, []), CheckError("offline")]

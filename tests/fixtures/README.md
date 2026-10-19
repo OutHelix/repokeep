@@ -52,3 +52,7 @@ directory results versus current progress. Task 363755 failed on subtask #4;
 the event log confirms the remaining packages were not built in attempt 6.1.
 Task 363764 also covers a successful subtask before a failure and untouched
 subtasks. These snapshots are regression data, independent of live task changes.
+
+`taskoteka-excluded.json` is an unmodified response from
+`/tasks/api/tasks/437537`, captured on 2026-10-19. The llama.cpp subtask explicitly
+excludes i586 while x86_64 and aarch64 are built; it also has a package approval.

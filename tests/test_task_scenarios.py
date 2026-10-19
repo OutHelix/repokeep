@@ -19,7 +19,7 @@ class TaskScenariosTest(unittest.TestCase):
                 values = fixture("taskoteka-" + owner)
                 self.assertEqual(len(values), count)
                 self.assertEqual({t["state"] for t in values}, states)
-                rows = tasks.select_tasks(values, arguments("tasks", "-m", owner))
+                rows = tasks.select_tasks(values, arguments("task", "-m", owner))
                 self.assertTrue(
                     all(t["owner"] == owner and t["state"] != "DONE" for t in rows)
                 )
@@ -30,7 +30,7 @@ class TaskScenariosTest(unittest.TestCase):
                 selected = tasks.select_tasks(
                     values,
                     arguments(
-                        "tasks", "-m", owner, "-b", "p11,sisyphus", "-s", "FAILED,EPERM"
+                        "task", "-m", owner, "-b", "p11,sisyphus", "-s", "FAILED,EPERM"
                     ),
                 )
                 self.assertTrue(
@@ -76,7 +76,7 @@ class TaskScenariosTest(unittest.TestCase):
             )
         output = tasks.render(
             [row],
-            arguments("tasks", "-m", "rider", "--arch", "--color", "always"),
+            arguments("task", "-m", "rider", "--arch", "--color", "always"),
             1,
             120,
         )
@@ -91,7 +91,7 @@ class TaskScenariosTest(unittest.TestCase):
             "built": tasks.ArchStatus.SUCCESS,
             "cached": tasks.ArchStatus.SUCCESS,
             "failed": tasks.ArchStatus.FAILED,
-            "excluded": tasks.ArchStatus.SKIPPED,
+            "excluded": tasks.ArchStatus.EXCLUDED,
             "swept": tasks.ArchStatus.SKIPPED,
             "pending": tasks.ArchStatus.WAITING,
             "waiting": tasks.ArchStatus.WAITING,
@@ -148,14 +148,14 @@ class TaskScenariosTest(unittest.TestCase):
                 ("1000", "(unknown package)"),
             ],
         )
-        args = arguments("tasks", "-m", "cas", "-p", "a-long-*")
+        args = arguments("task", "-m", "cas", "-p", "a-long-*")
         rows = tasks.select_tasks([value], args)
         self.assertEqual(len(rows), 1)
         output = tasks.render(rows, args, 1, 120)
         for text in ("#20", "#40", "#100", "#1000", "copied", "repository", "TEST"):
             self.assertIn(text, output)
         self.assertEqual(
-            tasks.select_tasks([value], arguments("tasks", "-m", "lav")), []
+            tasks.select_tasks([value], arguments("task", "-m", "lav")), []
         )
 
     def test_calendar_boundaries_in_fixed_timezones(self):
@@ -174,7 +174,7 @@ class TaskScenariosTest(unittest.TestCase):
             ("EST5", "2026-12-30", [3, 2, 1]),
         ):
             with self.subTest(tz=tz), frozen_time(instant, tz):
-                args = arguments("tasks", "-m", "cas", "--days", "2")
+                args = arguments("task", "-m", "cas", "--days", "2")
                 self.assertEqual(args.since, since)
                 self.assertEqual(
                     [t["id"] for t in tasks.select_tasks(values, args)], identifiers
@@ -194,15 +194,15 @@ class TaskScenariosTest(unittest.TestCase):
         for row in rows:
             self.assertEqual(
                 tasks.select_tasks(
-                    rows, arguments("tasks", "-m", "lav", "-s", row["state"])
+                    rows, arguments("task", "-m", "lav", "-s", row["state"])
                 ),
                 [row],
             )
         for field in ("time", "id", "package", "state", "branch"):
-            args = arguments("tasks", "-m", "lav", "--sort", field)
+            args = arguments("task", "-m", "lav", "--sort", field)
             forward = tasks.select_tasks(rows, args)
             reverse = tasks.select_tasks(
-                rows, arguments("tasks", "-m", "lav", "--sort", field, "--reverse")
+                rows, arguments("task", "-m", "lav", "--sort", field, "--reverse")
             )
             self.assertEqual(reverse, list(reversed(forward)))
 
@@ -213,7 +213,7 @@ class TaskScenariosTest(unittest.TestCase):
             malformed.pop(field)
             with self.assertRaisesRegex(CheckError, "missing owner/state/repo"):
                 tasks.normalize(malformed)
-        args = arguments("tasks", "-m", "rider", "--arch", "--json", "--no-color")
+        args = arguments("task", "-m", "rider", "--arch", "--json", "--no-color")
         with (
             patch.object(
                 tasks,

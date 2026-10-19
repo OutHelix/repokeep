@@ -1,0 +1,36 @@
+{
+  "updated": 1792416755,
+  "taskid": 437537,
+  "shared": false,
+  "fail_early": true,
+  "test_only": false,
+  "repo": "p11",
+  "state": "EPERM",
+  "try": 1,
+  "iter": 1,
+  "age": 0,
+  "created": "2026-10-18T06:09:43",
+  "build_time": "2026-10-18T07:16:24",
+  "message": "New version (0.5.0 -> 0.7.0)",
+  "owner": "rider",
+  "subtasks": {
+    "100": {
+      "dir": "/people/rider/packages/llama.cpp.git",
+      "tag_name": "0.7.0-alt1",
+      "tag_id": "9dacfaabf832f13647ce1e6c6cc72f98e61b5d95",
+      "tag_author": "Anton Farygin <rider@altlinux.org>",
+      "fetched": "2026-10-18T06:09:57",
+      "type": "repo",
+      "pkgname": "llama.cpp",
+      "approved_by": [ "cas" ],
+      "approval_comments": {
+        "cas": { "date": "2026-10-18T18:12:44", "text": "Approved" }
+      },
+      "userid": "rider",
+      "epoch": "2",
+      "version": "0.7.0",
+      "release": "alt1",
+      "build": { "aarch64": "built", "i586": "excluded", "x86_64": "built" }
+    }
+  }
+}

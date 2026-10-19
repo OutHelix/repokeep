@@ -84,7 +84,7 @@ class PresentationTest(unittest.TestCase):
             for json_mode in (False, True):
                 with self.subTest(width=width, json=json_mode):
                     args = arguments(
-                        "updates", "--no-color", *(["--json"] if json_mode else [])
+                        "update", "--no-color", *(["--json"] if json_mode else [])
                     )
                     with (
                         patch(
@@ -134,7 +134,7 @@ class PresentationTest(unittest.TestCase):
         for security, json_mode, color in cases:
             with self.subTest(security=security, json=json_mode, color=color):
                 args = arguments(
-                    "updates",
+                    "update",
                     "--color",
                     color,
                     *(["--vulnerable-only"] if security else []),
@@ -168,7 +168,7 @@ class PresentationTest(unittest.TestCase):
                     ),
                     streams() as (out, err),
                 ):
-                    self.assertEqual(updates.main(args, parser()[1]["updates"]), 0)
+                    self.assertEqual(updates.main(args, parser()[1]["update"]), 0)
                 self.assertNotIn("Checking", out.getvalue())
                 self.assertNotIn("Summary:", out.getvalue())
                 self.assertIn("Summary:", err.getvalue())

@@ -99,7 +99,7 @@ class TaskStatusTest(unittest.TestCase):
                 client = Mock(timeout=15)
                 client.request.return_value = json.dumps(progress)
                 row, warning = task_status.load_status(client, progress_task(progress))
-                args = arguments("tasks", "-m", row["owner"], "--no-color")
+                args = arguments("task", "-m", row["owner"], "--no-color")
                 header = tasks.render([row], args, 1, 120).split("#100")[0]
                 self.assertIn("  |  " + label, header)
                 self.assertIsNone(row["failed_check"])
@@ -139,7 +139,7 @@ class TaskStatusTest(unittest.TestCase):
                     stage="Install check",
                     failed_check="ACL check",
                 )
-                args = arguments("tasks", "--all", "--no-color")
+                args = arguments("task", "--all", "--no-color")
                 header = tasks.render([row], args, 1, 120).split("#100")[0]
                 if state == "BUILDING":
                     self.assertIn("Install check", header)
@@ -165,7 +165,7 @@ class TaskStatusTest(unittest.TestCase):
             side_effect=AssertionError("unexpected status request"),
         ) as start:
             result, warnings = tasks.fetch_statuses(
-                rows, arguments("tasks", "-m", source["owner"])
+                rows, arguments("task", "-m", source["owner"])
             )
         self.assertEqual(result, rows)
         self.assertEqual(warnings, [])
@@ -261,7 +261,7 @@ class TaskStatusTest(unittest.TestCase):
             ([], 120),
         ):
             with self.subTest(flags=flags, width=width):
-                args = arguments("tasks", "-m", row["owner"], *flags, "--no-color")
+                args = arguments("task", "-m", row["owner"], *flags, "--no-color")
                 text = tasks.render([row], args, 1, width)
                 self.assertNotIn("\033", text)
                 self.assertTrue(all(len(line) <= width for line in text.splitlines()))
@@ -270,7 +270,7 @@ class TaskStatusTest(unittest.TestCase):
                 self.assertEqual(header.count("FAILED"), 1)
                 self.assertIn("TEST", header)
                 self.assertNotIn("Dependencies check", text)
-        args = arguments("tasks", "--all", "--json", "--color", "always")
+        args = arguments("task", "--all", "--json", "--color", "always")
         with (
             patch.object(tasks, "snapshot", return_value=([row], 1, [])),
             streams() as (out, err),
@@ -282,7 +282,7 @@ class TaskStatusTest(unittest.TestCase):
         self.assertNotIn("\033", out.getvalue())
         self.assertEqual(err.getvalue(), "")
         text = tasks.render(
-            [row], arguments("tasks", "--arch", "--color", "always"), 1, 120
+            [row], arguments("task", "--arch", "--color", "always"), 1, 120
         )
         self.assertIn("\033[1;31mELF symbols check\033[0m", text)
         self.assertIn("\033[32mx86_64", text)
@@ -295,7 +295,7 @@ class TaskStatusTest(unittest.TestCase):
         )
         for width in (40, 120):
             with self.subTest(width=width):
-                args = arguments("tasks", "--all", "--no-color")
+                args = arguments("task", "--all", "--no-color")
                 header = tasks.render([row], args, 1, width).split("#100")[0]
                 self.assertEqual(header.count("FAILED"), 1)
                 self.assertIn("Neighbourversioncheck", re.sub(r"\s", "", header))
@@ -304,7 +304,7 @@ class TaskStatusTest(unittest.TestCase):
         row = progress_task(fixture("altrepo-progress-437142"))
         other = dict(row, id=row["id"] - 1)
         enriched = dict(row, stage="Noarch check", failed_check="Noarch check")
-        args = arguments("tasks", "-m", row["owner"], "--limit", "1")
+        args = arguments("task", "-m", row["owner"], "--limit", "1")
         with (
             patch.object(tasks, "request_json", return_value=[row, other]),
             patch.object(
@@ -321,7 +321,7 @@ class TaskStatusTest(unittest.TestCase):
         enriched = dict(row, stage="Noarch check", failed_check=None)
         worker = {"connection": Mock(), "process": Mock(), "started": 0}
         worker["connection"].poll.return_value = True
-        args = arguments("tasks", "-m", row["owner"], "--json", "--no-color")
+        args = arguments("task", "-m", row["owner"], "--json", "--no-color")
         for response in (
             (enriched, "check log unavailable: HTTP 404"),
             CheckError("HTTP 503 from rdb.altlinux.org"),
@@ -356,7 +356,7 @@ class TaskStatusTest(unittest.TestCase):
         )
         with schedule.patch_workers(tasks):
             output, warnings = tasks.fetch_statuses(
-                rows, arguments("tasks", "-m", base["owner"])
+                rows, arguments("task", "-m", base["owner"])
             )
         self.assertEqual([row["id"] for row in output], [1, 2, 3, 4, 5])
         self.assertEqual(warnings, [])
@@ -374,7 +374,7 @@ class TaskStatusTest(unittest.TestCase):
             patch.object(tasks, "stop_workers") as stop,
         ):
             output, warnings = tasks.fetch_statuses(
-                [row], arguments("tasks", "-m", row["owner"])
+                [row], arguments("task", "-m", row["owner"])
             )
         self.assertEqual(output, [row])
         self.assertIn("Task status request timed out", warnings[0])

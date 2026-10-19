@@ -26,7 +26,7 @@ class TaskOptionsTest(unittest.TestCase):
                 ),
             ):
                 rows, total, warnings = tasks.snapshot(
-                    arguments("tasks", "--limit", "2", "--arch", *flags)
+                    arguments("task", "--limit", "2", "--arch", *flags)
                 )
                 self.assertEqual([row["id"] for row in rows], expected)
                 self.assertEqual(
@@ -34,7 +34,7 @@ class TaskOptionsTest(unittest.TestCase):
                 )
                 self.assertEqual(total, 9)
                 self.assertEqual(warnings, [])
-        self.assertEqual(arguments("tasks").sort, "time")
+        self.assertEqual(arguments("task").sort, "time")
 
     def test_missing_invalid_dates_and_ties_are_deterministic_in_any_timezone(self):
         values = [
@@ -64,7 +64,7 @@ class TaskOptionsTest(unittest.TestCase):
                 self.assertEqual(
                     [
                         row["id"]
-                        for row in tasks.select_tasks(values, arguments("tasks"))
+                        for row in tasks.select_tasks(values, arguments("task"))
                     ],
                     expected,
                 )
@@ -72,7 +72,7 @@ class TaskOptionsTest(unittest.TestCase):
                     [
                         row["id"]
                         for row in tasks.select_tasks(
-                            values, arguments("tasks", "--reverse")
+                            values, arguments("task", "--reverse")
                         )
                     ],
                     list(reversed(expected)),
@@ -94,12 +94,12 @@ class TaskOptionsTest(unittest.TestCase):
             )
         ]
         self.assertEqual(
-            [row["id"] for row in tasks.select_tasks(values, arguments("tasks"))],
+            [row["id"] for row in tasks.select_tasks(values, arguments("task"))],
             [2, 3, 1],
         )
 
     def test_approvals_use_summary_and_keep_all_users_and_packages_in_json(self):
-        args = arguments("tasks", "--approvals", "--json", "-p", "jackson-core")
+        args = arguments("task", "--approvals", "--json", "-p", "jackson-core")
         with (
             patch.object(tasks, "request_json", return_value=fixture("taskoteka-list")),
             patch.object(tasks, "fetch_details") as details,
@@ -130,10 +130,10 @@ class TaskOptionsTest(unittest.TestCase):
         ):
             with self.subTest(width=width, flags=flags):
                 plain = tasks.render(
-                    [row], arguments("tasks", *flags, "--no-color"), 1, width
+                    [row], arguments("task", *flags, "--no-color"), 1, width
                 )
                 colored = tasks.render(
-                    [row], arguments("tasks", *flags, "--color", "always"), 1, width
+                    [row], arguments("task", *flags, "--color", "always"), 1, width
                 )
                 self.assertEqual(plain_text(colored), plain)
                 self.assertTrue(all(len(line) <= width for line in plain.splitlines()))
@@ -144,13 +144,13 @@ class TaskOptionsTest(unittest.TestCase):
                     self.assertIn(name, normalized)
                 self.assertNotIn("https://", plain)
         colored = tasks.render(
-            [row], arguments("tasks", "--approvals", "--color", "always"), 1, 240
+            [row], arguments("task", "--approvals", "--color", "always"), 1, 240
         )
         self.assertIn("\033[38;5;208mapproved: cas, nbr\033[0m", colored)
         self.assertIn("\033[1;31mdisapproved: amakeenk\033[0m", colored)
         other = next(line for line in colored.splitlines() if "#200" in line)
         self.assertNotIn("amakeenk", other)
-        plain = tasks.render([row], arguments("tasks", "--no-color"), 1, 240)
+        plain = tasks.render([row], arguments("task", "--no-color"), 1, 240)
         self.assertNotIn("approved:", plain)
         self.assertNotIn("disapproved:", plain)
 
@@ -162,17 +162,17 @@ class TaskOptionsTest(unittest.TestCase):
             "state": "TESTED",
             "subtasks": {"100": {"type": "repo", "pkgname": "example"}},
         }
-        args = arguments("tasks", "--approvals", "--no-color")
+        args = arguments("task", "--approvals", "--no-color")
         subtask = row["subtasks"]["100"]
         for flags in ([], ["--arch", "--source"]):
             self.assertEqual(
                 tasks.render(
                     [row],
-                    arguments("tasks", *flags, "--approvals", "--no-color"),
+                    arguments("task", *flags, "--approvals", "--no-color"),
                     1,
                     100,
                 ),
-                tasks.render([row], arguments("tasks", *flags, "--no-color"), 1, 100),
+                tasks.render([row], arguments("task", *flags, "--no-color"), 1, 100),
             )
         for names, expected in (
             ([], None),
@@ -190,7 +190,7 @@ class TaskOptionsTest(unittest.TestCase):
                 else:
                     self.assertEqual(
                         text,
-                        tasks.render([row], arguments("tasks", "--no-color"), 1, 100),
+                        tasks.render([row], arguments("task", "--no-color"), 1, 100),
                     )
                 self.assertNotIn("\033", text)
                 self.assertEqual(subtask["approved_by"], names)

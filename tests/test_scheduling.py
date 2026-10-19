@@ -29,7 +29,7 @@ class SchedulingTest(unittest.TestCase):
                         },
                     )
                     args = arguments(
-                        "updates",
+                        "update",
                         "-j",
                         "2",
                         "--no-progress",
@@ -56,7 +56,7 @@ class SchedulingTest(unittest.TestCase):
                 updates.package_results(
                     [{"name": name, "version": "1.0"} for name in names],
                     {},
-                    arguments("updates", "-j", "2", "--sort", "--no-progress"),
+                    arguments("update", "-j", "2", "--sort", "--no-progress"),
                 )
             )
         self.assertEqual([r.name for r in results], names)
@@ -86,7 +86,7 @@ class SchedulingTest(unittest.TestCase):
         schedule = Schedule(
             [2, 1], {1: detail, 2: CheckError("HTTP 429 from Taskoteka")}
         )
-        args = arguments("tasks", "-m", "lav", "--arch", "--json", "--no-color")
+        args = arguments("task", "-m", "lav", "--arch", "--json", "--no-color")
         with (
             patch.object(tasks, "request_json", return_value=values),
             patch.object(
@@ -127,7 +127,7 @@ class SchedulingTest(unittest.TestCase):
                 updates.package_results(
                     [package],
                     {},
-                    arguments("updates", "--vulnerable-only", "--no-progress"),
+                    arguments("update", "--vulnerable-only", "--no-progress"),
                 )
             )[0]
         self.assertEqual(result.status, "ERR")
@@ -150,7 +150,7 @@ class SchedulingTest(unittest.TestCase):
             patch.object(tasks.time, "monotonic", return_value=16),
         ):
             rows, warnings = tasks.fetch_details(
-                [value], arguments("tasks", "-m", "cas", "--arch")
+                [value], arguments("task", "-m", "cas", "--arch")
             )
         self.assertEqual(rows, [value])
         self.assertIn("timed out", warnings[0])

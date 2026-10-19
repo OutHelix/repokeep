@@ -29,7 +29,7 @@ class ReleaseScenariosTest(unittest.TestCase):
                 if "regex" in case:
                     rule["compiled_regex"] = re.compile(case["regex"])
                 args = arguments(
-                    "updates",
+                    "update",
                     *(["--include-prereleases"] if case.get("prereleases") else []),
                 )
                 with patch.object(client, "tags", return_value=case["tags"]):
@@ -69,7 +69,7 @@ class ReleaseScenariosTest(unittest.TestCase):
                         {"name": name, "version": current},
                         {"repo": repo},
                         client,
-                        arguments("updates"),
+                        arguments("update"),
                     )
                 self.assertEqual(result.status, "UPD")
                 self.assertEqual(result.same_major, latest)
@@ -80,7 +80,7 @@ class ReleaseScenariosTest(unittest.TestCase):
                 {"name": "guava", "version": "31.0-jre"},
                 {"repo": "google/guava"},
                 client,
-                arguments("updates"),
+                arguments("update"),
             )
         self.assertEqual(result.status, "ERR")
         self.assertIn("no recognizable version tags", result.note)
@@ -119,7 +119,7 @@ class ReleaseScenariosTest(unittest.TestCase):
                 )
             )
             args = arguments(
-                "updates",
+                "update",
                 "--config",
                 str(config),
                 "--repo",
@@ -129,7 +129,7 @@ class ReleaseScenariosTest(unittest.TestCase):
                 "--current-version",
                 "pkg=1.2",
             )
-            rules = updates.load_rules(args, parser()[1]["updates"])
+            rules = updates.load_rules(args, parser()[1]["update"])
             client = Client(15)
             with (
                 patch.object(
@@ -160,7 +160,7 @@ class ReleaseScenariosTest(unittest.TestCase):
             self.assertEqual(result.current, "unusual-RPM-Version")
 
     def test_real_category_response_intersects_owned_names(self):
-        args = arguments("updates", "-g", "java")
+        args = arguments("update", "-g", "java")
         packages = fixture("altrepo-packages")["packages"]
         with patch.object(
             updates, "request_data", return_value=fixture("altrepo-java")
@@ -173,7 +173,7 @@ class ReleaseScenariosTest(unittest.TestCase):
 
     def test_saved_maintainers_and_large_viy_list_through_main(self):
         for owner, count in (("cas", 699), ("grenka", 743), ("viy", 2976)):
-            args = arguments("updates", "-m", owner, "--json", "--no-color")
+            args = arguments("update", "-m", owner, "--json", "--no-color")
 
             def results(packages, rules, options):
                 for package in packages:
@@ -193,7 +193,7 @@ class ReleaseScenariosTest(unittest.TestCase):
                 patch.object(updates, "package_results", side_effect=results),
                 streams() as (out, err),
             ):
-                self.assertEqual(updates.main(args, parser()[1]["updates"]), 0)
+                self.assertEqual(updates.main(args, parser()[1]["update"]), 0)
             rows = json.loads(out.getvalue())
             self.assertEqual(len(rows), count)
             names = [p["name"] for p in rows]
@@ -209,7 +209,7 @@ class ReleaseScenariosTest(unittest.TestCase):
             ({"packages": []}, []),
             ({"packages": [{"name": "pkg", "version": "1.0"}]}, ["-p", "missing*"]),
         ):
-            args = arguments("updates", "--json", "--no-color", *options)
+            args = arguments("update", "--json", "--no-color", *options)
             with (
                 self.subTest(response=response, options=options),
                 patch.object(updates, "load_rules", return_value={}),
@@ -218,9 +218,9 @@ class ReleaseScenariosTest(unittest.TestCase):
             ):
                 if options:
                     with self.assertRaises(SystemExit) as exc:
-                        updates.main(args, parser()[1]["updates"])
+                        updates.main(args, parser()[1]["update"])
                     self.assertEqual(exc.exception.code, 2)
                 else:
-                    self.assertEqual(updates.main(args, parser()[1]["updates"]), 2)
+                    self.assertEqual(updates.main(args, parser()[1]["update"]), 2)
             self.assertEqual(out.getvalue(), "")
             self.assertIn("error:", err.getvalue())

@@ -26,7 +26,7 @@ class OsvScenariosTest(unittest.TestCase):
                 PACKAGE,
                 {"osv_packages": [CORE, CLI]},
                 client,
-                arguments("updates", "--vulnerable-only"),
+                arguments("update", "--vulnerable-only"),
             )
         self.assertEqual(result.status, "VULN")
         self.assertEqual(len(result.vulnerabilities), 1)
@@ -78,7 +78,7 @@ class OsvScenariosTest(unittest.TestCase):
                 PACKAGE,
                 {"osv_packages": [CORE]},
                 client,
-                arguments("updates", "--vulnerable-only"),
+                arguments("update", "--vulnerable-only"),
                 progress=lambda value: progress.append(copy.deepcopy(value)),
             )
         self.assertEqual([r.status for r in progress], ["VULN"])
@@ -114,7 +114,7 @@ class OsvScenariosTest(unittest.TestCase):
                 PACKAGE,
                 {"osv_packages": [target]},
                 client,
-                arguments("updates", "--vulnerable-only"),
+                arguments("update", "--vulnerable-only"),
             )
         self.assertEqual(request.call_args_list[1].args, ("/vulns/GHSA-fixture",))
         self.assertEqual(result.status, "ERR")
@@ -147,7 +147,7 @@ class OsvScenariosTest(unittest.TestCase):
                     PACKAGE,
                     {"osv_packages": [CORE]},
                     client,
-                    arguments("updates", "--vulnerable-only"),
+                    arguments("update", "--vulnerable-only"),
                 )
             self.assertEqual(result.status, "ERR")
             self.assertEqual(result.vulnerabilities, [])
@@ -161,12 +161,12 @@ class OsvScenariosTest(unittest.TestCase):
                 PACKAGE,
                 {"osv_packages": [CORE]},
                 client,
-                arguments("updates", "--vulnerable-only"),
+                arguments("update", "--vulnerable-only"),
             )
         result.vulnerabilities = [
             {"id": "CVE-fixture", "aliases": ["CVE-fixture"], "fixed_versions": []}
         ]
-        args = arguments("updates", "--vulnerable-only", "--json", "--no-color")
+        args = arguments("update", "--vulnerable-only", "--json", "--no-color")
         with (
             patch.object(updates, "load_rules", return_value={}),
             patch.object(updates, "package_list", return_value={"packages": [PACKAGE]}),
@@ -175,7 +175,7 @@ class OsvScenariosTest(unittest.TestCase):
             ),
             streams() as (out, err),
         ):
-            self.assertEqual(updates.main(args, parser()[1]["updates"]), 2)
+            self.assertEqual(updates.main(args, parser()[1]["update"]), 2)
         rows = json.loads(out.getvalue())
         self.assertEqual(rows[0]["status"], "ERR")
         self.assertEqual(rows[0]["vulnerabilities"][0]["id"], "CVE-fixture")
