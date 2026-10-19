@@ -24,8 +24,8 @@ class TaskScenariosTest(unittest.TestCase):
                     all(t["owner"] == owner and t["state"] != "DONE" for t in rows)
                 )
                 self.assertEqual(
-                    [t["id"] for t in rows],
-                    sorted((t["id"] for t in rows), reverse=True),
+                    [t.get("build_time") or "" for t in rows],
+                    sorted((t.get("build_time") or "" for t in rows), reverse=True),
                 )
                 selected = tasks.select_tasks(
                     values,
@@ -198,7 +198,7 @@ class TaskScenariosTest(unittest.TestCase):
                 ),
                 [row],
             )
-        for field in ("id", "package", "state", "branch"):
+        for field in ("time", "id", "package", "state", "branch"):
             args = arguments("tasks", "-m", "lav", "--sort", field)
             forward = tasks.select_tasks(rows, args)
             reverse = tasks.select_tasks(

@@ -7,7 +7,7 @@ import sys
 import time
 import urllib.parse
 from collections import Counter, deque
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from enum import Enum
 
 from . import task_status
@@ -203,6 +203,20 @@ def package_matches(name, pattern):
     return pattern in name
 
 
+def task_time(task):
+    try:
+        value = datetime.fromisoformat(
+            (task.get("build_time") or "").replace("Z", "+00:00")
+        )
+    except ValueError:
+        value = datetime.min
+    return (
+        value.replace(tzinfo=timezone.utc)
+        if value.tzinfo is None
+        else value.astimezone(timezone.utc)
+    )
+
+
 def select_tasks(values, args):
     if not isinstance(values, list):
         raise CheckError("API response must be a task array")
@@ -231,6 +245,8 @@ def select_tasks(values, args):
         selected.append(task)
 
     def key(task):
+        if args.sort == "time":
+            return task_time(task), task["id"]
         if args.sort == "id":
             return task["id"]
         if args.sort == "package":
@@ -239,7 +255,9 @@ def select_tasks(values, args):
         field = "repo" if args.sort == "branch" else "state"
         return task[field].lower(), task["id"]
 
-    return sorted(selected, key=key, reverse=(args.sort == "id") != args.reverse)
+    return sorted(
+        selected, key=key, reverse=(args.sort in ("time", "id")) != args.reverse
+    )
 
 
 def uint(value):
@@ -253,7 +271,7 @@ def uint(value):
 def configure_parser(parser):
     parser.description = (
         "List Girar tasks owned by a specific maintainer. Defaults: all branches, "
-        "all states except DONE, newest first. Package filters select tasks; all "
+        "all states except DONE, latest build log first. Package filters select tasks; all "
         "their packages remain visible. Output adapts to terminal width. "
         "Stages appear for BUILDING and failed checks for FAILED tasks. "
         "TEST means no automatic commit."
@@ -309,9 +327,9 @@ def configure_parser(parser):
     )
     parser.add_argument(
         "--sort",
-        choices=("id", "package", "state", "branch"),
-        default="id",
-        help="id descending; other fields alphabetical (default: id)",
+        choices=("time", "id", "package", "state", "branch"),
+        default="time",
+        help="time: latest build log first, missing dates last; id: newest task first; other fields alphabetical (default: time)",
     )
     parser.add_argument(
         "--reverse", action="store_true", help="reverse the chosen sort order"
@@ -327,9 +345,14 @@ def configure_parser(parser):
         help="show package names followed by source names and Git tags; add source objects to JSON",
     )
     parser.add_argument(
+        "--approvals",
+        action="store_true",
+        help="show all approving and disapproving users for each subtask",
+    )
+    parser.add_argument(
         "--all",
         action="store_true",
-        help="show both architectures and sources (--arch --source)",
+        help="show architectures, sources and approvals (--arch --source --approvals)",
     )
     parser.add_argument(
         "-w",
@@ -354,6 +377,7 @@ def configure_parser(parser):
 def validate_args(args, parser):
     args.arch = args.arch or args.all
     args.source = args.source or args.all
+    args.approvals = args.approvals or args.all
     branch = re.sub(r"\s+", "", args.branch).lower()
     if not re.fullmatch(r"[a-z0-9_.-]+(?:,[a-z0-9_.-]+)*", branch):
         parser.error("--branch: expected a branch or comma-separated list")
@@ -480,24 +504,46 @@ def snapshot(args):
     return rows, total, warnings
 
 
-def render_architectures(subtask, color, width=None, indent=""):
+def subtask_parts(subtask, arch, approvals):
     colors = {ArchStatus.SUCCESS: "32", ArchStatus.FAILED: "1;31"}
     parts = []
-    for architecture in ARCHITECTURES:
-        if parts:
-            parts.append(("  ", None))
-        parts.append(
-            (
-                architecture,
-                colors.get(arch_status(subtask, architecture), "90"),
+    if arch:
+        for architecture in ARCHITECTURES:
+            if parts:
+                parts.append(("  ", None))
+            parts.append(
+                (
+                    architecture,
+                    colors.get(arch_status(subtask, architecture), "90"),
+                )
             )
-        )
-    if width is not None:
-        return wrapped_parts(parts, width, indent, color=color)
-    return "".join(paint(text, code, color) if code else text for text, code in parts)
+    if approvals:
+        entries = []
+        for field, label, code in (
+            ("approved_by", "approved", "38;5;208"),
+            ("disapproved_by", "disapproved", "1;31"),
+        ):
+            names = (subtask or {}).get(field, [])
+            if names is None:
+                names = []
+            if not isinstance(names, list) or any(
+                not isinstance(name, str) for name in names
+            ):
+                continue
+            names = sorted(
+                {task_clean(name) for name in names if task_clean(name)},
+                key=str.casefold,
+            )
+            if names:
+                entries.append((label + ": " + ", ".join(names), code))
+        for entry in entries:
+            if parts:
+                parts.append(("  |  ", "90"))
+            parts.append(entry)
+    return parts
 
 
-def render_rows(rows, package_lists, show_arch, color, width):
+def render_rows(rows, package_lists, args, color, width):
     lines = []
     tree = ("├─", "└─", "│")
     try:
@@ -506,13 +552,26 @@ def render_rows(rows, package_lists, show_arch, color, width):
         tree = ("|-", "`-", "|")
     joint, end, vertical = tree
     digits = len(str(len(rows)))
-    all_rows = [row for entries in package_lists for row in entries]
+    all_rows = [
+        row
+        for entries in package_lists
+        for row in (entries or [("", "(no packages)", None)])
+    ]
     number_width = max([1] + [len(number) + 1 for number, _, _ in all_rows])
     prefix_width = number_width + 7
-    architecture_width = len(render_architectures(None, False))
+    details_width = max(
+        [0]
+        + [
+            sum(
+                len(text)
+                for text, _ in subtask_parts(subtask, args.arch, args.approvals)
+            )
+            for _, _, subtask in all_rows
+        ]
+    )
     package_width = min(
         max([13] + [len(name) for _, name, _ in all_rows]),
-        max(0, width - prefix_width - 3 - architecture_width),
+        max(0, width - prefix_width - 3 - details_width),
     )
     for index, (task, entries) in enumerate(zip(rows, package_lists), 1):
         if lines:
@@ -543,11 +602,12 @@ def render_rows(rows, package_lists, show_arch, color, width):
             )
         lines.append(wrapped_parts(header, width, color=color))
         entries = entries or [("", "(no packages)", None)]
-        inline = show_arch and (
+        inline = (args.arch or args.approvals) and (
             all(len(name) <= package_width for _, name, _ in entries)
             or package_width >= 20
         )
         for subindex, (number, name, subtask) in enumerate(entries):
+            details = subtask_parts(subtask, args.arch, args.approvals)
             last = subindex == len(entries) - 1
             connector = "  " + (end if last else joint) + " "
             label = ("#" + number if number else "-").rjust(number_width)
@@ -565,7 +625,7 @@ def render_rows(rows, package_lists, show_arch, color, width):
                 ]
             else:
                 name_parts = [(name, None)]
-            if inline:
+            if inline and details:
                 plain_cells = wrapped_parts([(name, None)], package_width).splitlines()
                 cells = wrapped_parts(
                     name_parts, package_width, color=color
@@ -583,7 +643,7 @@ def render_rows(rows, package_lists, show_arch, color, width):
                     if line_index == 0:
                         line += " " * (package_width - len(plain))
                         line += paint(" " + vertical + " ", "90", color)
-                        line += render_architectures(subtask, color)
+                        line += wrapped_parts(details, width, color=color)
                     lines.append(line)
             else:
                 lines.append(
@@ -594,11 +654,11 @@ def render_rows(rows, package_lists, show_arch, color, width):
                         color=color,
                     )
                 )
-                if show_arch:
+                if details:
                     lines.append(
-                        render_architectures(subtask, color, width, continuation)
+                        wrapped_parts(details, width, continuation, color=color)
                     )
-            if not last and show_arch and not inline:
+            if not last and details and not inline:
                 lines.append(paint(gutter[:width].rstrip(), "90", color))
     return lines
 
@@ -607,7 +667,8 @@ def render(rows, args, total, width=None):
     width = max(1, width if width is not None else shutil.get_terminal_size().columns)
     color = color_enabled(args.color, sys.stdout)
     branch = "all branches" if args.branch == "ALL" else args.branch
-    listing = f"Listing {len(rows)} tasks: {args.maintainer} / {branch}" + (
+    owner, branch = task_clean(args.maintainer), task_clean(branch)
+    listing = f"Listing {len(rows)} tasks: {owner} / {branch}" + (
         f" ({total} matched)" if total > len(rows) else ""
     )
     lines = [wrapped_parts([(listing, None)], width)]
@@ -633,7 +694,7 @@ def render(rows, args, total, width=None):
             render_rows(
                 rows,
                 [package_rows(t, args.source) for t in rows],
-                args.arch,
+                args,
                 color,
                 width,
             )

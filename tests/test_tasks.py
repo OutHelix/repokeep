@@ -112,7 +112,7 @@ class TasksTest(unittest.TestCase):
                 self.assertEqual((rows, total, warnings), ([task()], 1, []))
                 self.assertEqual(fetch.call_count, int(bool(options)))
 
-    def test_all_matches_arch_and_source_without_changing_selection(self):
+    def test_all_matches_explicit_flags_without_changing_selection(self):
         row = task(
             subtasks={
                 "100": {
@@ -121,13 +121,14 @@ class TasksTest(unittest.TestCase):
                     "dir": "/gears/e/example.git",
                     "tag_name": "1.2-alt1",
                     "build": {"x86_64": "built", "i586": "cached"},
+                    "approved_by": ["cas", "nbr"],
                 }
             }
         )
         for output_options in (["--no-color"], ["--json", "--color", "always"]):
             outputs = []
             for flags in (
-                ["--arch", "--source"],
+                ["--arch", "--source", "--approvals"],
                 ["--all"],
                 ["--source", "--all", "--arch"],
             ):
@@ -154,6 +155,7 @@ class TasksTest(unittest.TestCase):
                     self.assertEqual(selected, [row])
                     self.assertTrue(args.arch)
                     self.assertTrue(args.source)
+                    self.assertTrue(args.approvals)
                     self.assertEqual(err.getvalue(), "")
                     self.assertNotIn("\033", out.getvalue())
                     outputs.append(out.getvalue())
@@ -162,10 +164,13 @@ class TasksTest(unittest.TestCase):
                 subtask = json.loads(outputs[0])[0]["subtasks"]["100"]
                 self.assertEqual(subtask["build"]["x86_64"], "built")
                 self.assertEqual(subtask["pkgname"], "example")
+                self.assertEqual(subtask["approved_by"], ["cas", "nbr"])
                 self.assertEqual(subtask["source"]["label"], "example.git=1.2-alt1")
             else:
-                self.assertIn("example [example.git=1.2-alt1]", outputs[0])
+                self.assertIn("example", outputs[0])
+                self.assertIn("[example.git=1.2-alt1]", outputs[0])
                 self.assertIn("x86_64  i586  aarch64", outputs[0])
+                self.assertIn("approved: cas, nbr", outputs[0])
 
     def test_source_keeps_package_names_and_original_filtering(self):
         row = task(
@@ -549,7 +554,10 @@ class TasksTest(unittest.TestCase):
     def test_saved_responses_and_deleted_placeholders(self):
         args = arguments("tasks")
         rows = tasks.select_tasks(fixture("taskoteka-list"), args)
-        self.assertEqual(rows, sorted(rows, key=lambda t: -t["id"]))
+        self.assertEqual(
+            [row["id"] for row in rows],
+            [432157, 435564, 435355, 435352, 435335, 435995, 435919, 432607, 413835],
+        )
         self.assertTrue(all(t["state"] != "DONE" for t in rows))
         detail = tasks.normalize(fixture("taskoteka-detail"))
         self.assertEqual(detail["id"], 435564)

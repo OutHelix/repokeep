@@ -144,6 +144,6 @@ class CliTest(unittest.TestCase):
         self.assertIs(update.sort, True)
         self.assertEqual(update.repo, [("example", "owner/repo")])
         self.assertEqual(
-            (task.sort, task.branch, task.arch, task.source),
-            ("package", "p11", True, True),
+            (task.sort, task.branch, task.arch, task.source, task.approvals),
+            ("package", "p11", True, True, True),
         )
