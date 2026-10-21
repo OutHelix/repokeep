@@ -49,6 +49,14 @@ def fixture(name):
     return json.loads((FIXTURES / (name + ".json")).read_text(encoding="utf-8"))
 
 
+def live(pid):
+    try:
+        state = Path(f"/proc/{pid}/stat").read_text().split(") ", 1)[1].split()[0]
+        return state not in ("Z", "X")
+    except (FileNotFoundError, ProcessLookupError):
+        return False
+
+
 def arguments(command, *options):
     root, parsers = parser()
     args = root.parse_args([command, "-m", "scala", *options])

@@ -21,6 +21,7 @@ from .common import (
     positive,
 )
 from .output import wrapped_parts
+from .watch import WatchQuit, check_quit, wait, watch_input
 from .workers import receive_worker, request_worker, start_worker, stop_workers
 
 API = "https://git.altlinux.org/tasks/api"
@@ -388,7 +389,7 @@ def configure_parser(parser):
         nargs="?",
         const=30,
         default=None,
-        help="refresh every N seconds (default: 30; minimum: 5)",
+        help="refresh every N seconds (default: 30; minimum: 3); press q or Ctrl+C to stop",
     )
     parser.add_argument(
         "--timeout",
@@ -468,8 +469,8 @@ def validate_args(args, parser):
     if any(not pattern for pattern in args.package):
         parser.error("--package must not be empty")
 
-    if args.watch is not None and args.watch < 5:
-        parser.error("--watch interval must be at least 5 seconds")
+    if args.watch is not None and args.watch < 3:
+        parser.error("--watch interval must be at least 3 seconds")
     args.watch = args.watch or 0
     if args.watch and args.json:
         parser.error("--watch and --json cannot be combined")
@@ -493,6 +494,7 @@ def fetch_task_data(rows, args, status=False):
     label = "status" if status else "details"
     try:
         while active or pending:
+            check_quit(getattr(args, "watch_fd", None))
             while pending and len(active) < 4:
                 task = pending.popleft()
                 worker = start_worker(
@@ -764,11 +766,16 @@ def render(rows, args, total, width=None):
         listing = f"Task {args.task_id}: {owner} / {branch}"
     lines = [wrapped_parts([(listing, None)], width)]
     if args.watch:
+        controls = (
+            "q or Ctrl+C to stop"
+            if getattr(args, "watch_fd", None) is not None
+            else "Ctrl+C to stop"
+        )
         lines.append(
             wrapped_parts(
                 [
                     (
-                        f"Updated: {datetime.now():%Y-%m-%d %H:%M:%S}  |  Every {args.watch}s  |  Ctrl+C to stop",
+                        f"Updated: {datetime.now():%Y-%m-%d %H:%M:%S}  |  Every {args.watch}s  |  {controls}",
                         None,
                     )
                 ],
@@ -810,7 +817,7 @@ def render(rows, args, total, width=None):
     return "\n".join(lines)
 
 
-def main(args):
+def display_tasks(args):
     while True:
         try:
             rows, total, warnings = snapshot(args)
@@ -846,4 +853,15 @@ def main(args):
                 print(warning, file=sys.stderr, flush=True)
             if not args.watch:
                 return 1 if warnings else 0
-        time.sleep(args.watch)
+        wait(args.watch, args.watch_fd)
+
+
+def main(args):
+    with watch_input(args.watch) as descriptor:
+        args.watch_fd = descriptor
+        try:
+            return display_tasks(args)
+        except WatchQuit:
+            return 0
+        finally:
+            args.watch_fd = None

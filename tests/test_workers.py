@@ -17,7 +17,7 @@ from unittest.mock import Mock, patch
 
 from repokeep import task_status, tasks, updates, workers
 from repokeep.common import CheckError
-from tests.support import FIXTURES, arguments, fixture
+from tests.support import FIXTURES, arguments, fixture, live
 
 
 @contextlib.contextmanager
@@ -82,14 +82,6 @@ def server():
         httpd.shutdown()
         httpd.server_close()
         thread.join(timeout=2)
-
-
-def live(pid):
-    try:
-        state = Path(f"/proc/{pid}/stat").read_text().split(") ", 1)[1].split()[0]
-        return state not in ("Z", "X")
-    except FileNotFoundError:
-        return False
 
 
 class WorkersTest(unittest.TestCase):

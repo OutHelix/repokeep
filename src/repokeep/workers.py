@@ -6,6 +6,7 @@ import time
 
 from .common import CheckError, clean
 from .upstream import Client
+from .watch import check_quit
 
 
 def worker_entry(connection, action, payload, args):
@@ -111,6 +112,7 @@ def request_worker(action, payload, args, timeout_message):
     worker = start_worker(action, payload, args)
     try:
         while not worker["connection"].poll(0.05):
+            check_quit(getattr(args, "watch_fd", None))
             if time.monotonic() - worker["started"] >= args.timeout:
                 raise CheckError(timeout_message)
             if not worker["process"].is_alive():

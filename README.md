@@ -21,7 +21,7 @@ python -m pip install .
 repokeep update -m scala --updates-only
 repokeep update -m scala --vulnerable-only
 repokeep task -m scala --all
-repokeep task -m scala -n 5 --watch
+repokeep task -m scala -n 5 -w 3
 repokeep task show 435564
 ```
 
@@ -29,6 +29,7 @@ Replace `scala` with your maintainer login. Updates default to Sisyphus; task li
 cover all branches, exclude DONE and show the latest build activity first.
 `--all` shows architectures, sources and approvals; `task show ID` enables these
 automatically and includes DONE tasks.
+Watch intervals start at 3 seconds; press `q` or Ctrl+C to stop.
 
 Add `--json` for JSON, `--no-color` to disable colors, or `--help` for all options.
 

@@ -55,7 +55,7 @@ class CliTest(unittest.TestCase):
             ["update", "-m", "other", "--vuln-details"],
             ["task", "-m", "ALL"],
             ["task", "-m", "other", "--watch", "0"],
-            ["task", "-m", "other", "--watch", "4"],
+            ["task", "-m", "other", "--watch", "2"],
             ["task", "-m", "other", "--watch", "--json"],
             ["task", "-m", "other", "--branch", "ALL,p11"],
             ["task", "-m", "other", "--state", "FAILED,,DONE"],
