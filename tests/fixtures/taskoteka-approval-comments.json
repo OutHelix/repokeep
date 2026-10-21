@@ -1,0 +1,33 @@
+{
+  "updated": 1792584435,
+  "taskid": 438004,
+  "shared": false,
+  "fail_early": true,
+  "test_only": true,
+  "repo": "sisyphus",
+  "state": "TESTED",
+  "try": 1,
+  "iter": 1,
+  "age": 0,
+  "created": "2026-10-21T11:48:43",
+  "build_time": "2026-10-21T11:53:44",
+  "owner": "scala",
+  "subtasks": {
+    "100": {
+      "dir": "/people/scala/packages/jackson-module-jsonSchema.git",
+      "tag_name": "2.22.1-alt1",
+      "tag_id": "a835f49a0834b773328461ef53ba358088f23cef",
+      "tag_author": "Evgeniy Serov <scala@altlinux.org>",
+      "fetched": "2026-10-21T11:48:44",
+      "type": "repo",
+      "pkgname": "jackson-module-jsonSchema",
+      "approval_comments": {
+        "antohami": { "date": "2026-10-21T11:57:57", "text": "Review" }
+      },
+      "userid": "scala",
+      "version": "2.22.1",
+      "release": "alt1",
+      "build": { "aarch64": "built", "i586": "built", "x86_64": "built" }
+    }
+  }
+}

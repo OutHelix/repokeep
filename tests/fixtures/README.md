@@ -56,3 +56,7 @@ subtasks. These snapshots are regression data, independent of live task changes.
 `taskoteka-excluded.json` is an unmodified response from
 `/tasks/api/tasks/437537`, captured on 2026-10-19. The llama.cpp subtask explicitly
 excludes i586 while x86_64 and aarch64 are built; it also has a package approval.
+
+`taskoteka-approvals-list.json` and `taskoteka-approval-comments.json` were captured
+on 2026-10-21. Task 438004 has an approval from antohami only in
+`approval_comments`; `approved_by` is absent. The list omits the approval entirely.

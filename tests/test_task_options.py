@@ -98,18 +98,20 @@ class TaskOptionsTest(unittest.TestCase):
             [2, 3, 1],
         )
 
-    def test_approvals_use_summary_and_keep_all_users_and_packages_in_json(self):
+    def test_approvals_fetch_details_and_keep_all_users_and_packages_in_json(self):
         args = arguments("task", "--approvals", "--json", "-p", "jackson-core")
         with (
             patch.object(tasks, "request_json", return_value=fixture("taskoteka-list")),
-            patch.object(tasks, "fetch_details") as details,
+            patch.object(
+                tasks, "fetch_details", side_effect=lambda rows, args: (rows, [])
+            ) as details,
             patch.object(
                 tasks, "fetch_statuses", side_effect=lambda rows, args: (rows, [])
             ),
             streams() as (out, err),
         ):
             self.assertEqual(tasks.main(args), 0)
-        details.assert_not_called()
+        details.assert_called_once()
         rows = json.loads(out.getvalue())
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["id"], 432607)

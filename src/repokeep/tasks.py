@@ -55,6 +55,24 @@ def task_clean(value):
     return clean(re.sub(r"[\u202a-\u202e\u2066-\u2069]", " ", str(value)))
 
 
+def subtask_approvals(subtask):
+    result = dict(subtask)
+    for field, comments in (
+        ("approved_by", "approval_comments"),
+        ("disapproved_by", "disapproval_comments"),
+    ):
+        if field in result or not isinstance(result.get(comments), dict):
+            continue
+        users = [
+            name
+            for name, comment in result[comments].items()
+            if isinstance(name, str) and task_clean(name) and isinstance(comment, dict)
+        ]
+        if users:
+            result[field] = users
+    return result
+
+
 def normalize(value):
     if not isinstance(value, dict):
         raise CheckError("expected a task object")
@@ -78,6 +96,11 @@ def normalize(value):
         raise CheckError("missing owner/state/repo")
     if task.get("subtasks") is not None and not isinstance(task["subtasks"], dict):
         raise CheckError("invalid subtasks")
+    if isinstance(task.get("subtasks"), dict):
+        task["subtasks"] = {
+            number: subtask_approvals(subtask) if isinstance(subtask, dict) else subtask
+            for number, subtask in task["subtasks"].items()
+        }
     for key in ("created", "build_time"):
         if task.get(key) is not None and not isinstance(task[key], str):
             raise CheckError("invalid task date")
@@ -351,7 +374,7 @@ def configure_parser(parser):
     parser.add_argument(
         "--approvals",
         action="store_true",
-        help="show all approving and disapproving users for each subtask",
+        help="fetch details; show all approving and disapproving users for each subtask",
     )
     parser.add_argument(
         "--all",
@@ -552,7 +575,7 @@ def snapshot(args):
     total = len(selected)
     rows = selected[: args.limit] if args.limit else selected
     warnings = []
-    if (args.arch or args.source) and rows:
+    if (args.arch or args.source or args.approvals) and rows:
         rows, warnings = fetch_details(rows, args)
         before = len(rows)
         rows = select_tasks(rows, args)

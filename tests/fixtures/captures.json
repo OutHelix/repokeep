@@ -133,6 +133,18 @@
     "transformation": "none",
     "url": "https://git.altlinux.org/tasks/api/tasks/363764"
   },
+  "taskoteka-approval-comments.json": {
+    "captured": "2026-10-21",
+    "sha256": "114e2088a2fd9f4e5abd82517fa3f160d43323671763fc0120e224f546c8093d",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks/438004"
+  },
+  "taskoteka-approvals-list.json": {
+    "captured": "2026-10-21",
+    "sha256": "2e4d70f3f6a0a5a9e80dad27e8d6d41b7b576ee7d4c263ee7c07aad10f75f7ff",
+    "transformation": "none",
+    "url": "https://git.altlinux.org/tasks/api/tasks?user=scala&repo=ALL&state=ALL"
+  },
   "taskoteka-cas-detail.json": {
     "captured": "2026-10-17",
     "sha256": "bb5f962ff86b93233d7ff4bf5655da052a0f3beb08e489d3fa95564b878d4412",
