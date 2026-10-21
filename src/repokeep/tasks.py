@@ -806,14 +806,6 @@ def render(rows, args, total, width=None):
     if not counts:
         summary.append(("0 tasks", None))
     lines.extend(["", wrapped_parts(summary, width, color=color)])
-    if any(t.get("test_only") is True for t in rows):
-        lines.append(
-            wrapped_parts(
-                [("TEST: test-only task; no automatic commit.", "90")],
-                width,
-                color=color,
-            )
-        )
     return "\n".join(lines)
 
 
